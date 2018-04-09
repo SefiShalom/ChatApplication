@@ -1,0 +1,66 @@
+#chats-list{
+  height: 500px;
+  margin:0;
+  background-color: white;
+  overflow-y: auto;
+}
+
+.list-group{
+  border-radius: 0;
+}
+
+.col-lg-4{
+  margin:0;
+  padding: 0;
+}
+
+#left-chats-menu{
+  height: 100%;
+}
+
+img{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.chat-item{
+  height: 75px;
+  padding: 2%;
+}
+
+.chatItem:hover{
+  background-color: lightgrey;
+}
+
+
+
+.header{
+  padding: 2%;
+  background-color: lightgrey;
+  height: 65px;
+  /*border-right: 2px solid darkgray;*/
+}
+
+#chats-nav-menu{
+  height: 50px;
+  background-color: #96e6a1;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

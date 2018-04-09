@@ -1,0 +1,22 @@
+<div id="chatting-section" class="col-lg-8">
+  <div id="chats-list-header" class="header">
+    Header
+  </div>
+  <div id="messaging-window">
+    <div class="row" *ngFor="let msg of messages">
+      <div class="message-display col-sm-4 col-lg-4">{{msg}}</div>
+    </div>
+  </div>
+  <div id="composing-div">
+    <div class="input-group">
+      <input type="text" class="form-control" id="messgae-input" [(ngModel)]="message"
+             placeholder="Type a message...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" style="height: 40px; border-radius: 0;" type="button" (click)="sendButtonClick()">Send</button>
+      </span>
+    </div><!-- /input-group -->
+  </div>
+  <div id="chats-list-footer" class="header">
+    Footer
+  </div>
+</div>
