@@ -1,15 +1,19 @@
 var mongoose = require('mongoose');
 
+
 var User = new mongoose.Schema({
-  userID: String,
-  name: String,
-  last_name: String,
-  nickname: String,
-  profile_picture: String,
-  creation_date: Date,
-  modification_date: Date,
-  online: Boolean,
-  hidden: Boolean
+  userID: {type: String, default: "09042018"}, //make autoincrement
+  name: {type: String, required: true},
+  last_name: {type: String, required: true},
+  email: {type: String, required: true, unique: true},
+  password: {type: String, required: true},
+  nickname: {type: String, required: true},
+  profile_picture: {type: String, default: "https://i.stack.imgur.com/l60Hf.png"},
+  friends: {type: Array, default: []},
+  creation_date: {type: Date, default: Date.now},
+  modification_date: {type: Date, default: Date.now},
+  online: {type: Boolean, default: false},
+  hidden: {type: Boolean, default: false}
 });
 
 module.exports = mongoose.model('User', User);

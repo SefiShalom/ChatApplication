@@ -2,7 +2,7 @@
   height: 500px;
   margin:0;
   background-color: white;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 .list-group{
@@ -36,7 +36,7 @@ img{
 
 .header{
   padding: 2%;
-  background-color: lightgrey;
+  background-color: #4caf50;
   height: 65px;
   /*border-right: 2px solid darkgray;*/
 }

@@ -51,8 +51,8 @@ border-radius: 0;
 
 
 .header{
-background-color: lightgrey;
-  border-left: 2px solid darkgray;
+background-color: #4caf50;
+  /*border-left: 2px solid darkgray;*/
   height: 65px;
 }
 

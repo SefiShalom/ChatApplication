@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {LoginService} from './services/loginservice.service';
+import {LoginService} from './services/login.service';
+import {ServerEventsEmitter} from './services/serverEventsEmitter';
+import {User} from './interfaces/user';
+
 
 @Component({
   selector: 'app-root',
@@ -8,13 +11,11 @@ import {LoginService} from './services/loginservice.service';
 })
 export class AppComponent implements OnInit{
 
-  private user;
-
-  constructor(private _login: LoginService){
-    this._login.getUserByID().subscribe(user =>
-    console.log(user));
+  constructor(){
   }
+
   ngOnInit() {
+
   }
 
 }

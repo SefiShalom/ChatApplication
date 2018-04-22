@@ -1,7 +1,8 @@
-<div id="left-chats-menu" class="col-lg-4">
+<div *ngIf="user" id="left-chats-menu" class="col-lg-4 col-md-4 col-sm-4">
 
   <div id="chats-list-header" class="header">
-    <img src="../../../if_user_56299.png">
+    <img style="float: left" [src]="user.profile_picture">
+    <p style="color: white; margin-left: 1%">{{user.nickname}}</p>
   </div>
 
   <div id="chats-nav-menu">
@@ -9,61 +10,9 @@
     navbar menu</div>
 
   <div id="chats-list">
-    <div class="chat-item">
-      <img src="../../../if_user_56299.png">
-      User
-    </div>
-    <div class="chat-item">
-      <img src="../../../if_user_56299.png">
-      User
-    </div>
-    <div class="chat-item">
-    <img src="../../../if_user_56299.png">
-    User
-  </div>
-    <div class="chat-item">
-    <img src="../../../if_user_56299.png">
-    User
-  </div>
-    <div class="chat-item">
-    <img src="../../../if_user_56299.png">
-    User
-  </div>
-    <div class="chat-item">
-    <img src="../../../if_user_56299.png">
-    User
-  </div>
-    <div class="chat-item">
-    <img src="../../../if_user_56299.png">
-    User
-  </div>
-    <div class="chat-item">
-    <img src="../../../if_user_56299.png">
-    User
-  </div>
-    <div class="chat-item">
-    <img src="../../../if_user_56299.png">
-    User
-  </div>
-    <div class="chat-item">
-      <img src="../../../if_user_56299.png">
-      User
-    </div>
-    <div class="chat-item">
-      <img src="../../../if_user_56299.png">
-      User
-    </div>
-    <div class="chat-item">
-      <img src="../../../if_user_56299.png">
-      User
-    </div>
-    <div class="chat-item">
-      <img src="../../../if_user_56299.png">
-      User
-    </div>
-    <div class="chat-item">
-      <img src="../../../if_user_56299.png">
-      User
+    <div class="chat-item" *ngFor="let user of friendsList">
+      <img [src]="user.profile_picture">
+      {{user.nickname}}
     </div>
   </div>
   <div id="chats-list-footer" class="header">

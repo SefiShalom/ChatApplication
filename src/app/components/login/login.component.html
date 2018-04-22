@@ -1,0 +1,11 @@
+<div class="login-page">
+  <div class="form">
+    <h2 class="fs-title">Log In</h2>
+    <div class="login-form">
+      <input type="text" [(ngModel)]="email" placeholder="Email"/>
+      <input type="password" [(ngModel)]="password" placeholder="Password"/>
+      <button (click)="onLoginClick()">login</button>
+      <p class="message">Not registered? <a (click)="onRegisterClick()">Create an account</a></p>
+    </div>
+  </div>
+</div>

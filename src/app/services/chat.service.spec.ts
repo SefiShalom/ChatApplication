@@ -1,9 +1,9 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { ChatService } from './chatservice.service';
+import { ChatService } from './chat.service';
 
-describe('ChatserviceService', () => {
+describe('ChatService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ChatService]

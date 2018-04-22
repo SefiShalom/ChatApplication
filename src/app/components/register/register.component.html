@@ -1,0 +1,27 @@
+<div class="login-page">
+  <div class="form">
+    <h2 class="fs-title">Registration page</h2>
+    <img [src]="profilePicture" />
+    <div class="login-form" (keyup)="validateForm()">
+        <div class="col-lg-6">
+          <input type="text" [(ngModel)]="firstName" placeholder="Name" />
+        </div>
+        <div class="col-lg-6">
+          <input class="col-lg-6" type="text" [(ngModel)]="lastName" placeholder="Last Name" />
+        </div>
+        <div class="col-lg-6">
+          <input type="text" [(ngModel)]="nickname" placeholder="Nickname" />
+        </div>
+        <div class="col-lg-6">
+          <input type="text" [(ngModel)]="email" placeholder="Email" />
+        </div>
+        <div class="col-lg-6">
+          <input class="col-lg-6" type="password" [(ngModel)]="password" placeholder="Password" />
+        </div>
+        <div class="col-lg-6">
+          <input class="col-lg-6" type="password" [(ngModel)]="confirmPass" placeholder="Confirm Password" />
+        </div>
+      <button (click)="register()">Register</button>
+    </div>
+  </div>
+</div>
