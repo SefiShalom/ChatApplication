@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from '../../interfaces/user';
-import {ChatwindowComponent} from '../chatwindow/chatwindow.component';
-import {ChatslistComponent} from '../chatslist/chatslist.component';
+// import {ChatwindowComponent} from '../chatwindow/chatwindow.component';
+// import {ChatslistComponent} from '../chatslist/chatslist.component';
 import {ServerEventsEmitter} from '../../services/serverEventsEmitter';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Router} from '@angular/router';
+import {ChatService} from '../../services/chat.service';
 
 @Component({
   selector: 'app-chat',
@@ -10,12 +13,9 @@ import {ServerEventsEmitter} from '../../services/serverEventsEmitter';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-
-  private user: User;
-  private friendsList: User[];
-
-  constructor(private eventEmitter: ServerEventsEmitter) {}
+  constructor() {}
 
   ngOnInit() {
   }
+
 }

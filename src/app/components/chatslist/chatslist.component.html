@@ -10,9 +10,9 @@
     navbar menu</div>
 
   <div id="chats-list">
-    <div class="chat-item" *ngFor="let user of friendsList">
-      <img [src]="user.profile_picture">
-      {{user.nickname}}
+    <div class="chat-item" *ngFor="let friend of friendsList; let receiver of index" (click)="setCurrentReceiver(receiver)">
+      <img [src]="friend.profile_picture">
+      {{friend.nickname}}
     </div>
   </div>
   <div id="chats-list-footer" class="header">

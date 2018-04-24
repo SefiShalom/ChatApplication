@@ -1,7 +1,12 @@
 <div id="chatting-section" class="col-lg-8 col-md-8 col-sm-8">
+
   <div id="chats-list-header" class="header">
-    Header
+    <div id="receiverDetails" *ngIf="receiver">
+    <img style="float: left" [src]="receiver.profile_picture">
+    <p style="color: white; margin-left: 1%">{{receiver.nickname}}</p>
+    </div>
   </div>
+
   <div id="messaging-window">
     <div class="row" *ngFor="let msg of messages">
       <div class="message-display col-sm-4 col-lg-4">{{msg}}</div>

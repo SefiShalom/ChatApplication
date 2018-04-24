@@ -15,6 +15,7 @@ export class ServerEventsEmitter implements OnInit{
   constructor(private loginService: LoginService) {
     this.loginService.isLoggedIn.subscribe( login => {
       if(login){
+        console.log('5. ServerEventEmmiter: initializing server event emitter');
         this.initServerEventsEmitter();
       }
     });

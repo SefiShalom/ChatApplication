@@ -16,7 +16,9 @@ export class LoginComponent implements OnInit {
   password: string;
   private isLoggedIn = new BehaviorSubject<boolean>(false);
 
-  constructor(private router: Router, private loginService: LoginService) { }
+  constructor(private router: Router, private loginService: LoginService) {
+    console.log('login login service ID: ' + this.loginService.id);
+  }
 
   ngOnInit() {}
 
@@ -28,10 +30,12 @@ export class LoginComponent implements OnInit {
 
       this.loginService.login(loginForm).subscribe(res => {
         if(res.login) {
+          console.log('2. LoginComponent: received user from DB. setting user.');
           this.loginService.user.next(res.user);
           this.router.navigate(['./chat']);
-          console.log('setting login service isLoggedIn to true');
+          console.log('3. LoginComponent: setting login service isLoggedIn to true');
           this.loginService.isLoggedIn.next(true);
+          this.loginService.isLoggedIn.complete();
         }
       } );
   }

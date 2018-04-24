@@ -17,19 +17,28 @@ export class ChatslistComponent implements OnInit{
   user: User;
   friendsList: User[];
 
-  constructor(private loginService: LoginService, private chatService: ChatService) {}
+  constructor(private loginService: LoginService, private chatService: ChatService) {
+    console.log('chat list chat service ID: ' + this.chatService.id);
+    console.log('chat list login service ID: ' + this.loginService.id);
+  }
 
   ngOnInit() {
     this.loginService.user.subscribe(user => {
       if(user) {
+        this.user = user;
+        console.log('4. ChatlistComponent: getting friends list from chatService');
         this.chatService.getFriendsList(user).subscribe(res => {
-          console.log(res);
-          this.user = user;
           this.friendsList = res;
+          console.log(this.friendsList);
         });
       }
     });
   }
 
+  setCurrentReceiver(receiver){
+    console.log(this.chatService);
+    // console.log(receiver);
+    this.chatService.setCurrentReceiver(receiver);
+  }
 
 }

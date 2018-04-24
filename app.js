@@ -10,6 +10,7 @@ const path = require("path");
 const mainRequests = require('./routes/main_routes');
 const userRequests = require('./routes/user_routes');
 const loginRequests = require('./routes/login_routes');
+const User = require("./schemas/user_schema");
 const HashMap = require('hashmap');
 
 const db = mongoose.connection;
@@ -18,8 +19,6 @@ const socketProc = require('./initialSocketProcedure');
 
 mongoose.connect(mongoDBURL);
 db.on('error', console.error.bind(console, 'MongoDB connection error!\n'));
-
-autoIncrement.initialize(db);
 
 app.use('/', mainRequests);
 app.use('/user', userRequests);
@@ -36,13 +35,25 @@ var clients = new HashMap();
 
 io.on('connection', function (socket) {
   console.log(socket.id + " connected!");
-  clients.set(socket.id, socket);
+  var socketID = socket.id;
+  clients.set(socketID, socket);
 
   socket.on('sendMessage', function (messageObject) {
     console.log(messageObject.senderID + ": " + messageObject.content);
-    clients.forEach(function (client) {
-      client.emit('newMessage', messageObject.content);
+    // clients.forEach(function (client) {
+    //   client.emit('newMessage', messageObject.content);
+    // });
+    clients.get(messageObject.receiverID).emit('newMessage',messageObject.content);
+  });
+
+  socket.on('getSocketID', function (user) {
+    console.log('getting socket ID from socket.io for id ' + user.id);
+    User.update({userID: user.id},{currentSocketID: socketID}, function(err){
+      if(err){
+        console.log(error);
+      }
     });
+    clients.get(socketID).emit('receiveSocketID', socketID);
   });
 
   socket.on('disconnect', function () {

@@ -7,3 +7,10 @@
   0px 4px 7px rgba(0,0,0,0.1),
   0px 9px 12px rgba(0,0,0,0.4);
 }
+
+
+.header{
+  background-color: #4caf50;
+  /*border-left: 2px solid darkgray;*/
+  height: 65px;
+}

@@ -14,12 +14,14 @@ export class LoginService {
   user = new BehaviorSubject<User>(null);
   isLoggedIn = new BehaviorSubject<Boolean>(false);
 
+  id = Math.random();
+
   constructor(private _http: Http) {}
 
   login(loginForm: LoginForm) {
     return new Observable<LoginResponse>(observer => {
       this._http.post('/login', loginForm).subscribe(res => {
-        console.log('from login service \n' + res.json());
+        console.log('1. LoginService: getting user from DB');
         observer.next(res.json());
       });
     });

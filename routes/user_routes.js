@@ -19,6 +19,7 @@ router.get('/',function(req,res){
   });
 });
 
+
 router.get('/get-user-friends-list', function (req,res) {
 
   console.log('getUserdFriendslist');
@@ -47,8 +48,8 @@ router.get('/get-user-friends-list', function (req,res) {
       console.log(err);
       return err;
     }
-    console.log(result[0]);
     return res.status(200).json(result[0].friendsList);
   });
 });
+
 module.exports = router;
