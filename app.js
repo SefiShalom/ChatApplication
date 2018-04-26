@@ -30,35 +30,49 @@ app.use(bodyParser.json());
 var port = process.env.PORT || 3000;
 var server = http.createServer(app);
 var io = socketIO(server);
+
+var pendingClients = new HashMap();
 var clients = new HashMap();
 
 
 io.on('connection', function (socket) {
+
   console.log(socket.id + " connected!");
+
   var socketID = socket.id;
-  clients.set(socketID, socket);
+
+  pendingClients.set(socketID, socket);
+
+
+  socket.on('registerClientToClients', function(user){
+      User.update({userID: user.userID}, {socketID: socketID, online: true}, function(err){
+        if(err){
+          console.log(err);
+          return;
+        }else{
+          console.log('registering client socket: ' + socketID);
+          var client = pendingClients.get(socketID);
+          pendingClients.delete(socketID);
+          clients.set(socketID,socket);
+          socket.emit('clientRegistrationResponse',{isRegistered: true, socketID: socketID});
+          //TODO emit connection to online friends
+        }
+      });
+  });
+
 
   socket.on('sendMessage', function (messageObject) {
     console.log(messageObject.senderID + ": " + messageObject.content);
-    // clients.forEach(function (client) {
-    //   client.emit('newMessage', messageObject.content);
-    // });
+    //TODO save the message object in the DB
+    // send the message to the client.
     clients.get(messageObject.receiverID).emit('newMessage',messageObject.content);
   });
 
-  socket.on('getSocketID', function (user) {
-    console.log('getting socket ID from socket.io for id ' + user.id);
-    User.update({userID: user.id},{currentSocketID: socketID}, function(err){
-      if(err){
-        console.log(error);
-      }
-    });
-    clients.get(socketID).emit('receiveSocketID', socketID);
-  });
 
   socket.on('disconnect', function () {
     console.log(socket.id + " was disconnected!");
     clients.delete(socket.id);
+    User.update({})
   });
 });
 

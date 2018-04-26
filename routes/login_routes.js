@@ -8,16 +8,16 @@ const User = require("../schemas/user_schema");
 router.post('/',function(req,res){
   var loginForm = req.body;
   User.findOne({email: loginForm.email, password: loginForm.password}, function (err,user){
-    if(err || user === {}){
+    if(err || !user){
       console.log(err);
       return res.status(200).json({user: null, login: false});
     }
+    // console.log(user);
     return res.status(200).json({user: user, login: true});
   });
 });
 
 router.post('/register',function(req,res){
-
   var registrationForm = req.body;
   console.log(registrationForm);
   var newUser = new User(registrationForm);

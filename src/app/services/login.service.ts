@@ -7,6 +7,7 @@ import {User} from '../interfaces/user';
 import {LoginForm} from '../interfaces/loginForm';
 import {LoginResponse} from '../interfaces/loginresponse';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {EventEmitter} from './EventEmitter';
 
 @Injectable()
 export class LoginService {
@@ -14,9 +15,9 @@ export class LoginService {
   user = new BehaviorSubject<User>(null);
   isLoggedIn = new BehaviorSubject<Boolean>(false);
 
-  id = Math.random();
+  constructor(private _http: Http) {
 
-  constructor(private _http: Http) {}
+  }
 
   login(loginForm: LoginForm) {
     return new Observable<LoginResponse>(observer => {

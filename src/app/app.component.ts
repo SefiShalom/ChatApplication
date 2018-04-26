@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {LoginService} from './services/login.service';
-import {ServerEventsEmitter} from './services/serverEventsEmitter';
+import {EventEmitter} from './services/EventEmitter';
 import {User} from './interfaces/user';
 
 
@@ -12,6 +12,7 @@ import {User} from './interfaces/user';
 export class AppComponent implements OnInit{
 
   constructor(){
+    console.log('app component');
   }
 
   ngOnInit() {

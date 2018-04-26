@@ -1,35 +1,41 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {User} from '../interfaces/user';
 import {Message} from '../interfaces/message';
 import {Observable} from 'rxjs/Observable';
 import {Http} from '@angular/http';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {EventEmitter} from './EventEmitter';
 
 @Injectable()
 export class ChatService {
 
-  private user = new BehaviorSubject<User>(null);
+  userSource = new BehaviorSubject<User>(null);
   receiverSource = new BehaviorSubject<User>(null);
-  // currentReceiver = this.receiverSource.asObservable();
-  currentReceiver: User;
-  isLoggedIn = new BehaviorSubject<boolean>(false);
+  isReady = new BehaviorSubject<boolean>(false);
 
 
+  constructor(private http: Http, private eventEmitter: EventEmitter) {
+    this.eventEmitter.isReady.subscribe(ready => {
+      if (ready) {
+        this.eventEmitter.user.subscribe(user => {
+          if(user){
+            this.userSource.next(user);
+            this.isReady.next(true);
+          }
+        });
+      }
+    });
+  }
 
-  id = Math.random();
 
-  constructor(private http: Http) {}
-
-  getFriendsList(user: User): Observable<User[]> {
+  getFriendsList(id: string): Observable<User[]> {
     return new Observable<User[]>(observer => {
-      this.http.get('/user/get-user-friends-list?id=' + user.userID).subscribe(
+      this.http.get('/user/get-user-friends-list?id=' + id).subscribe(
         res => observer.next(res.json()));
     });
   }
 
-  setCurrentReceiver(receiver){
-    console.log('chat service receiver: ');
-    this.currentReceiver = receiver;
+  setCurrentReceiver(receiver) {
     this.receiverSource.next(receiver);
   }
 }

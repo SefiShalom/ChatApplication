@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Message} from '../../interfaces/message';
-import {ServerEventsEmitter} from '../../services/serverEventsEmitter';
+import {EventEmitter} from '../../services/EventEmitter';
 import {User} from '../../interfaces/user';
 import {ChatService} from '../../services/chat.service';
 import {LoginService} from '../../services/login.service';
@@ -20,13 +20,13 @@ export class ChatwindowComponent implements OnInit {
   conversationID: string;
   socketID: string;
 
-  constructor(private chatService: ChatService, private loginService: LoginService, private eventEmitter: ServerEventsEmitter) {
+  constructor(private chatService: ChatService, private eventEmitter: EventEmitter) {
     this.messages = [];
-    console.log('chat window chat service ID: ' + this.chatService.id);
+    // console.log('chat window chat service ID: ' + this.chatService.id);
   }
 
   ngOnInit() {
-    this.loginService.user.subscribe(user => {
+    this.chatService.userSource.subscribe(user => {
       if (user) {
         this.user = user;
         this.initialEvents();
@@ -55,12 +55,12 @@ export class ChatwindowComponent implements OnInit {
         });
 
         this.eventEmitter.handleEmittedEvent('receiveSocketID').subscribe(sockID => {
-          console.log(sockID);
+          console.log("socketID received from the server: " + sockID);
           this.socketID = sockID;
         });
 
-        console.log('7. ChatwindowComponent: About to crash');
-        this.eventEmitter.emitEvent({name: 'getSocketID', arguments: {id: this.user.userID}});
+        // console.log('7. ChatwindowComponent: About to crash');
+        // this.eventEmitter.emitEvent({name: 'getSocketID', arguments: {id: this.receiver.userID}});
       }
 
     });
@@ -68,12 +68,10 @@ export class ChatwindowComponent implements OnInit {
 
 
   sendButtonClick() {
-    console.log(this.chatService);
-    // console.log(this.receiver);
     if (this.message) {
       var messageObject = {
         senderID: this.user.userID,
-        receiverID: this.receiver.userID,
+        receiverID: this.receiver.socketID,
         content: this.message
       };
 

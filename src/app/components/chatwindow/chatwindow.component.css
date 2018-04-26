@@ -50,6 +50,10 @@ img{
   padding: 5px;
 }
 
+#welcome-message{
+  text-align: center;
+  height: 530px;
+}
 
 .list-group{
 border-radius: 0;

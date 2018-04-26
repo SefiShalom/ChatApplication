@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import {ServerEventsEmitter} from './services/serverEventsEmitter'
+import {EventEmitter} from './services/EventEmitter'
 import {LoginService} from './services/login.service'
 import { AppComponent } from './app.component';
 import { ChatwindowComponent } from './components/chatwindow/chatwindow.component';
@@ -32,7 +32,7 @@ import {Routing} from './app.routing';
     HttpModule,
     Routing
   ],
-  providers: [ServerEventsEmitter, LoginService, RegisterService, ChatService],
+  providers: [EventEmitter, LoginService, RegisterService, ChatService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -8,7 +8,7 @@ var User = new mongoose.Schema({
   email: {type: String, required: true, unique: true},
   password: {type: String, required: true},
   nickname: {type: String, required: true},
-  currentSocketID: {type: String, default: ""},
+  socketID: {type: String, default: ""},
   profile_picture: {type: String, default: "https://i.stack.imgur.com/l60Hf.png"},
   friends: {type: Array, default: []},
   creation_date: {type: Date, default: Date.now},

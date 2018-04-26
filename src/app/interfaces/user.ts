@@ -5,4 +5,5 @@ export interface User {
   nickname: string;
   profile_picture: string;
   online: boolean;
+  socketID: string
 }
