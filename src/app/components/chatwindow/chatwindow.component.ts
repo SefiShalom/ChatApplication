@@ -13,7 +13,7 @@ import {LoginService} from '../../services/login.service';
 
 export class ChatwindowComponent implements OnInit {
 
-  messages: string[];
+  messages: Message[];
   message: string;
   user: User;
   receiver: User;
@@ -33,14 +33,29 @@ export class ChatwindowComponent implements OnInit {
       }
     });
 
+    this.eventEmitter.handleEmittedEvent('receiveConversation').subscribe(messages => {
+      if(messages.length == 0){
+        this.messages = [];
+      }else {
+        messages.forEach(message => {
+          if (message.receiverID == this.user._id) {
+            message.class = 'received';
+          }
+          this.messages = messages;
+        });
+      }
+    });
+
     this.chatService.receiverSource.subscribe(receiver => {
       console.log('chatwindow receiver: ');
       if(receiver){
         this.receiver = receiver;
+        this.eventEmitter.emitEvent({
+          name:'getConversation',
+       arguments: {user1: this.user._id, user2: this.receiver._id}});
       }
     });
   }
-
 
   initialEvents(){
 
@@ -51,6 +66,9 @@ export class ChatwindowComponent implements OnInit {
         console.log('6. ChatwindowComponent: server emmiter is ready. initializing events.');
 
         this.eventEmitter.handleEmittedEvent('newMessage').subscribe(msg => {
+          console.log(msg.senderID + ": " + msg.content);
+          msg.class = 'received';
+          console.log(msg);
           this.messages.push(msg);
         });
 
@@ -70,14 +88,18 @@ export class ChatwindowComponent implements OnInit {
   sendButtonClick() {
     if (this.message) {
       var messageObject = {
-        senderID: this.user.userID,
-        receiverID: this.receiver.socketID,
+        senderID: this.user._id,
+        receiverID: this.receiver._id,
+        conversationID: "",
+        // date: null,
+        // time: null,
+        class: 'sent',
         content: this.message
       };
 
-      console.log('emitting message to :');
-      console.log(this.receiver);
+      console.log(this.user._id +": " + messageObject.content);
       this.eventEmitter.emitEvent({name: 'sendMessage', arguments: messageObject});
+      this.messages.push(messageObject);
       this.message = '';
     }
   }

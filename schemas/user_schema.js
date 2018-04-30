@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 
 
 var User = new mongoose.Schema({
-  userID: {type: String, default: "09042018"}, //make autoincrement
   name: {type: String, required: true},
   last_name: {type: String, required: true},
   email: {type: String, required: true, unique: true},

@@ -28,22 +28,35 @@ img{
   padding: 2%;
 }
 
-.chatItem:hover{
+.chat-item:hover{
   background-color: lightgrey;
+  cursor: pointer;
 }
 
 
 
 .header{
   padding: 2%;
-  background-color: #4caf50;
+  background-color: #008000;
+  /*background-color: #4caf50;*/
   height: 65px;
   /*border-right: 2px solid darkgray;*/
 }
 
-#chats-nav-menu{
+#chatslist-navbar{
   height: 50px;
+  background-color: #4caf50;
+  text-align: center;
+}
+
+.chatslist-navbar-item{
+  color: #FFFFFF;
+  padding: 15px;
+}
+
+.chatslist-navbar-item:hover{
   background-color: #96e6a1;
+  cursor: pointer;
 }
 
 ::-webkit-scrollbar {

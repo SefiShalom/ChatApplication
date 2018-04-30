@@ -11,6 +11,8 @@ const mainRequests = require('./routes/main_routes');
 const userRequests = require('./routes/user_routes');
 const loginRequests = require('./routes/login_routes');
 const User = require("./schemas/user_schema");
+const Conversation = require('./schemas/conversation_schema');
+const Message = require('./schemas/message_schema');
 const HashMap = require('hashmap');
 
 const db = mongoose.connection;
@@ -32,6 +34,7 @@ var server = http.createServer(app);
 var io = socketIO(server);
 
 var pendingClients = new HashMap();
+
 var clients = new HashMap();
 
 
@@ -45,15 +48,17 @@ io.on('connection', function (socket) {
 
 
   socket.on('registerClientToClients', function(user){
-      User.update({userID: user.userID}, {socketID: socketID, online: true}, function(err){
+    console.log('USER: ');
+    console.log(user);
+    var id = new mongoose.Types.ObjectId(user._id);
+      User.update({_id: id}, {socketID: socketID, online: true}, function(err){
         if(err){
           console.log(err);
           return;
         }else{
           console.log('registering client socket: ' + socketID);
-          var client = pendingClients.get(socketID);
-          pendingClients.delete(socketID);
-          clients.set(socketID,socket);
+          var clientSock = pendingClients.get(socketID);
+          clients.set(user._id,clientSock);
           socket.emit('clientRegistrationResponse',{isRegistered: true, socketID: socketID});
           //TODO emit connection to online friends
         }
@@ -61,18 +66,70 @@ io.on('connection', function (socket) {
   });
 
 
-  socket.on('sendMessage', function (messageObject) {
-    console.log(messageObject.senderID + ": " + messageObject.content);
-    //TODO save the message object in the DB
-    // send the message to the client.
-    clients.get(messageObject.receiverID).emit('newMessage',messageObject.content);
+  socket.on('getConversation',function(users){
+
+    // var user1 = new mongoose.Types.ObjectId(users.user1);
+    // var user2 = new mongoose.Types.ObjectId(users.user2);
+
+    Message.find({$or: [
+      {$and: [{receiverID: users.user2}, {senderID: users.user1}]},
+        {$and: [{receiverID: users.user1}, {senderID: users.user2}]}]},function (err,messages) {
+        if(err){
+          console.log(err);
+        }else if(messages.length === []){
+          socket.emit('receiveConversation',null);
+        }else{
+          socket.emit('receiveConversation',messages);
+        }
+    });
   });
 
+
+  socket.on('sendMessage', function (messageObject) {
+
+    console.log(messageObject);
+
+    var message = new Message({
+      conversationID: messageObject.conversationID,
+      senderID: messageObject.senderID,
+      receiverID: messageObject.receiverID,
+      content: messageObject.content
+    });
+
+    // if(!message.conversationID){
+    //   console.log('no conv id');
+    //   var conversation = new Conversation({
+    //     users: [message.senderID, message.receiverID],
+    //   });
+    //
+    //   conversation.save(function(err, conv){
+    //     if(err){
+    //       console.log(err);
+    //     }else{
+    //       message.conversationID = conv._id;
+    //     }
+    //   });
+    // }
+
+    message.save(function(err){
+      console.log('saving message');
+      if(err){
+        console.log(err);
+      }else{
+        // sends the message to the client.
+        console.log(messageObject.senderID + ": " + messageObject.content);
+        var receiver = clients.get(messageObject.receiverID);
+        if(receiver){
+          receiver.emit('newMessage',messageObject);
+        }
+      }
+    });
+
+  });
 
   socket.on('disconnect', function () {
     console.log(socket.id + " was disconnected!");
     clients.delete(socket.id);
-    User.update({})
   });
 });
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {User} from '../../interfaces/user';
 
 @Component({
   selector: 'app-chatlistitem',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatlistitemComponent implements OnInit {
 
-  constructor() { }
+  friend: User;
 
-  ngOnInit() {
+  constructor() {
+    // this.friend = friend;
+  }
+
+  ngOnInit() {}
+
+  setFriend(friend: User){
+    this.friend = friend;
   }
 
 }

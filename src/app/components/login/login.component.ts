@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
 
       this.loginService.login(loginForm).subscribe(res => {
         if(res.login) {
+          console.log('login user:');
           console.log(res);
           this.appendErrorMessage("");
           console.log('2. LoginComponent: received user from DB. setting user.');

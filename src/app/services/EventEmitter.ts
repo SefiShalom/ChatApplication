@@ -12,16 +12,22 @@ export class EventEmitter implements OnInit {
 
   private socket: SocketIOClient.Socket;
   public isReady = new BehaviorSubject<Boolean>(false);
+  public disconnected = new BehaviorSubject<Boolean>(false);
   user = new BehaviorSubject<User>(null);
 
   constructor(private loginService: LoginService, private router: Router) {
+
     this.loginService.isLoggedIn.subscribe(login => {
+
       if (login) {
 
         console.log('5. ServerEventEmmiter: initializing server event emitter');
 
         this.loginService.user.subscribe(user => {
           if (user) {
+
+            console.log('eventEmmiter user:');
+            console.log(user);
 
             this.initServerEventsEmitter();
 
@@ -37,7 +43,7 @@ export class EventEmitter implements OnInit {
               }
             });
 
-            this.emitEvent({name: 'registerClientToClients', arguments: {userID: user.userID}});
+            this.emitEvent({name: 'registerClientToClients', arguments: {_id: user._id}});
           }
         });
       }
@@ -49,12 +55,14 @@ export class EventEmitter implements OnInit {
 
   initServerEventsEmitter() {
     console.log('Server emitter on init');
-    this.socket = io('http://192.168.1.10:3000');
+    this.socket = io('http://localhost:3000');
     this.socket.on('connect', () => {
       console.log('connected to the server');
     });
+
     this.socket.on('disconnect', () => {
       console.log('disconnected from the server');
+      this.disconnected.next(true);
       this.router.navigate(['/']);
       this.socket.close();
     });
@@ -74,4 +82,3 @@ export class EventEmitter implements OnInit {
     });
   }
 }
-

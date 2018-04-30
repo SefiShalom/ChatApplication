@@ -1,12 +1,10 @@
 var mongoose = require('mongoose');
 
-var Chat = new mongoose.Schema({
-  _id: String,
-  type: String,
-  creationDate: Date,
-  lastActiveDate: Date,
-  hidden: Boolean,
-  title: String,
+var Conversation = new mongoose.Schema({
+  users: {type: Array, default: []},
+  creation_date: {type: Date, dafault: Date.now()},
+  hidden: {type: Boolean, default: false},
+  messages: {type: Array, default: []}
 });
 
-module.exports = mongoose.model('Chat', Chat);
+module.exports = mongoose.model('Conversation', Conversation);

@@ -1,3 +1,4 @@
-<p>
-  chatlistitem works!
-</p>
+<div class="chat-item" *ngIf="friend">
+  <img [src]="friend.profile_picture">
+  {{friend.nickname}}
+</div>

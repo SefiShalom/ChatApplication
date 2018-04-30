@@ -19,6 +19,7 @@ export class ChatService {
       if (ready) {
         this.eventEmitter.user.subscribe(user => {
           if(user){
+            console.log('ChatService user is ready');
             this.userSource.next(user);
             this.isReady.next(true);
           }
@@ -34,6 +35,8 @@ export class ChatService {
         res => observer.next(res.json()));
     });
   }
+
+
 
   setCurrentReceiver(receiver) {
     this.receiverSource.next(receiver);

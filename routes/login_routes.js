@@ -12,17 +12,14 @@ router.post('/',function(req,res){
       console.log(err);
       return res.status(200).json({user: null, login: false});
     }
-    // console.log(user);
     return res.status(200).json({user: user, login: true});
   });
 });
 
 router.post('/register',function(req,res){
   var registrationForm = req.body;
-  console.log(registrationForm);
   var newUser = new User(registrationForm);
   newUser.save(function(err,user){
-
     if(err){
       console.log(err);
       return res.status(500).send("Problem in registration");

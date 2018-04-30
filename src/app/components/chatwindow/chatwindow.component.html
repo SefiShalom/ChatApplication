@@ -2,26 +2,29 @@
 
   <div id="chats-list-header" class="header">
     <div id="receiverDetails" *ngIf="receiver">
-    <img style="float: left" [src]="receiver.profile_picture">
-    <p style="color: white; margin-left: 1%">{{receiver.nickname}}</p>
+      <img style="float: left" [src]="receiver.profile_picture">
+      <p style="color: white; margin-left: 1%">{{receiver.nickname}}</p>
     </div>
   </div>
 
   <div *ngIf="receiver">
-  <div id="messaging-window">
-    <div class="row" *ngFor="let msg of messages">
-      <div class="message-display col-sm-4 col-lg-4">{{msg}}</div>
+    <div id="messaging-window">
+      <div class="row" *ngFor="let msg of messages">
+        <div class="message-display col-sm-4 col-lg-4" [ngClass]="msg.class">
+          {{msg.content}}
+        </div>
+      </div>
     </div>
-  </div>
-  <div id="composing-div">
-    <div class="input-group">
-      <input type="text" class="form-control" id="messgae-input" [(ngModel)]="message"
-             placeholder="Type a message...">
-      <span class="input-group-btn">
-        <button class="btn btn-default" style="height: 40px; border-radius: 0;" type="button" (click)="sendButtonClick()">Send</button>
+    <div id="composing-div">
+      <div class="input-group">
+        <input type="text" class="form-control" id="messgae-input" [(ngModel)]="message"
+               placeholder="Type a message...">
+        <span class="input-group-btn">
+        <button class="btn btn-default" style="height: 40px; border-radius: 0;" type="button"
+                (click)="sendButtonClick()">Send</button>
       </span>
-    </div><!-- /input-group -->
-  </div>
+      </div><!-- /input-group -->
+    </div>
   </div>
 
   <div id="welcome-message" *ngIf="!receiver">
@@ -29,7 +32,7 @@
     <p>Select a friend and start a chat</p>
   </div>
 
-  <div id="chats-list-footer" class="header">
-    Footer
-  </div>
+  <!--<div id="chats-list-footer" class="header">-->
+    <!--Footer-->
+  <!--</div>-->
 </div>

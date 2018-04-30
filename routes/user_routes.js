@@ -2,14 +2,15 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 router.use(bodyParser.json());
+const mongoose = require('mongoose');
 const path = require("path");
 const User = require("../schemas/user_schema");
 
 router.get('/',function(req,res){
 
   var userid = req.query.userid;
-
-  User.findOne({userID: userid}, function (err,user){
+  // var userID = 'ObjectId("' + req.query.userid+ '")';
+  User.findOne({_id: userid}, function (err,user){
     if(err){
       console.log(err);
       return err;
@@ -22,29 +23,30 @@ router.get('/',function(req,res){
 
 router.get('/get-user-friends-list', function (req,res) {
 
-  console.log('getUserdFriendslist');
-
+  // var userID = 'ObjectId("' + req.query.id+ '")';
   var userID = req.query.id;
+
+  console.log(userID);
 
   User.aggregate([{
     $lookup: {
       from: "users",
       localField: "friends",
-      foreignField: "userID",
+      foreignField: "_id",
       as: "friendsList"
     }
   },{
       $match: {
-        "userID": userID
+        "_id": new mongoose.Types.ObjectId(userID)
       }
     },{
       $project: {
-        "_id": 0,
         "friendsList": 1,
       }
     }
   ], function (err, result) {
     if (err) {
+      console.log("An error occurred");
       console.log(err);
       return err;
     }
