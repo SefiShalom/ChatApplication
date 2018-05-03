@@ -1,4 +1,4 @@
-#chats-list{
+.tab-view{
   height: 500px;
   margin:0;
   background-color: white;
@@ -61,8 +61,12 @@ img{
 }
 
 .chatslist-navbar-item:hover{
-  background-color: #96e6a1;
+  /*background-color: #96e6a1;*/
   cursor: pointer;
+}
+
+.selectedTab{
+  background-color: #96e6a1;
 }
 
 ::-webkit-scrollbar {

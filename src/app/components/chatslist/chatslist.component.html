@@ -7,16 +7,30 @@
   </div>
 
   <div id="chatslist-navbar">
-    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 chatslist-navbar-item">Chat</div>
-    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 chatslist-navbar-item">Notifications</div>
-    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 chatslist-navbar-item">Search</div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 chatslist-navbar-item"
+         (click)="setTabNavigationView(0)" [ngClass]="{selectedTab: tabNavigationIndex == 0}">Chat</div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 chatslist-navbar-item"
+         (click)="setTabNavigationView(1)" [ngClass]="{selectedTab: tabNavigationIndex === 1}">Notifications</div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 chatslist-navbar-item"
+         (click)="setTabNavigationView(2)" [ngClass]="{selectedTab: tabNavigationIndex === 2}">Search</div>
   </div>
 
-  <div id="chats-list">
+  <div id="chats-list" class="tab-view" *ngIf="tabNavigationIndex == 0">
     <div class="chat-item" *ngFor="let friend of friendsList; let receiver of index" (click)="setCurrentReceiver(receiver)">
       <app-chatlistitem [friend]="friend"></app-chatlistitem>
     </div>
   </div>
+
+
+  <div id="requests-tab" class="tab-view" *ngIf="tabNavigationIndex == 1">
+    No requests
+  </div>
+
+  <div id="search-tab" class="tab-view" *ngIf="tabNavigationIndex == 2">
+    <input type="email" class="form-control" placeholder="Search by email...">
+  </div>
+
+
   <!--<div id="chats-list-footer" class="header">-->
     <!--Footer-->
   <!--</div>-->

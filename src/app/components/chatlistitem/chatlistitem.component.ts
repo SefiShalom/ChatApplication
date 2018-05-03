@@ -3,7 +3,6 @@ import {User} from '../../interfaces/user';
 import {ChatService} from '../../services/chat.service';
 import {Message} from '../../interfaces/message';
 import {ChatlistItemService} from '../../services/chatlistitem.service';
-import {ChatlistItemDirective} from '../../chatlist-item-directive.directive';
 import {EventEmitter} from '../../services/EventEmitter';
 
 @Component({

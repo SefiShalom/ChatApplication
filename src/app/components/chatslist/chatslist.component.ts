@@ -15,9 +15,11 @@ export class ChatslistComponent implements OnInit {
   user: User;
   friendsList: User[];
   friendsListMap: ChatlistitemComponent[];
+  tabNavigationIndex: number;
 
   constructor(private chatService: ChatService) {
       this.friendsList = [];
+      this.tabNavigationIndex = 0;
   }
 
   ngOnInit() {
@@ -39,4 +41,7 @@ export class ChatslistComponent implements OnInit {
     this.chatService.setCurrentReceiver(receiver);
   }
 
+  setTabNavigationView(number: number) {
+    this.tabNavigationIndex = number;
+  }
 }
