@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {User} from '../../interfaces/user';
+import {ChatService} from '../../services/chat.service';
+import {Message} from '../../interfaces/message';
+import {ChatlistItemService} from '../../services/chatlistitem.service';
+import {ChatlistItemDirective} from '../../chatlist-item-directive.directive';
+import {EventEmitter} from '../../services/EventEmitter';
 
 @Component({
   selector: 'app-chatlistitem',
@@ -8,16 +13,41 @@ import {User} from '../../interfaces/user';
 })
 export class ChatlistitemComponent implements OnInit {
 
-  friend: User;
+  @Input() friend: User;
+  lastMessage: Message;
+  newMessagesCount: number;
 
-  constructor() {
-    // this.friend = friend;
+  constructor(private eventEmitter: EventEmitter) {
+    this.newMessagesCount = 1;
+    this.lastMessage = {
+      conversationID: "",
+      senderID: "",
+      receiverID: "",
+      date: "02/05/2018",
+      time: "",
+      class: 'sent',
+    content: "Hi whats up?"
+    }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.eventEmitter.handleEmittedEvent('newMessage').subscribe(message => {
+      if(message.receiverID == this.friend._id){
+        console.log('new message received');
+        this.setLastMessage(message);
+      }
+    });
+  }
 
-  setFriend(friend: User){
-    this.friend = friend;
+  setLastMessage(message: Message){
+    console.log('set last message was called');
+    console.log(message);
+    this.lastMessage = message;
+    this.setNewMessageCounter(1);
+  }
+
+  setNewMessageCounter(counter: number){
+    this.newMessagesCount = counter;
   }
 
 }

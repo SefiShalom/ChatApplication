@@ -14,8 +14,7 @@
 
   <div id="chats-list">
     <div class="chat-item" *ngFor="let friend of friendsList; let receiver of index" (click)="setCurrentReceiver(receiver)">
-      <img [src]="friend.profile_picture">
-      {{friend.nickname}}
+      <app-chatlistitem [friend]="friend"></app-chatlistitem>
     </div>
   </div>
   <!--<div id="chats-list-footer" class="header">-->

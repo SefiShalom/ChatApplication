@@ -1,4 +1,4 @@
-<div id="chatting-section" class="col-lg-8 col-md-8 col-sm-8">
+<div id="chatting-section" class="col-lg-8 col-md-4 col-sm-4">
 
   <div id="chats-list-header" class="header">
     <div id="receiverDetails" *ngIf="receiver">
@@ -9,9 +9,10 @@
 
   <div *ngIf="receiver">
     <div id="messaging-window">
-      <div class="row" *ngFor="let msg of messages">
+      <div class="row" *ngFor="let msg of messages; let lastmsg = last">
         <div class="message-display col-sm-4 col-lg-4" [ngClass]="msg.class">
           {{msg.content}}
+          {{lastmsg? scrollToBottom(): ''}}
         </div>
       </div>
     </div>

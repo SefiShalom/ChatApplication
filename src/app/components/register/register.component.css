@@ -3,7 +3,7 @@
 #background{
   height: 100%;
   width: 100%;
-  background: #4CAF50;
+  background: #008000;
 }
 
 .login-page {
@@ -47,7 +47,7 @@
   cursor: pointer;
 }
 .form button:hover,.form button:active,.form button:focus {
-  background: #43A047;
+  background: #008000;
 }
 
 button{

@@ -3,7 +3,7 @@
 #background{
   height: 100%;
   width: 100%;
-  background: #4CAF50;
+  background: #008000;
 }
 
 .login-page {
@@ -37,7 +37,7 @@
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
-  background: #4CAF50;
+  background: #008000;
   width: 100%;
   border: 0;
   padding: 15px;

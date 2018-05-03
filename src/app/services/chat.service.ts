@@ -5,9 +5,13 @@ import {Observable} from 'rxjs/Observable';
 import {Http} from '@angular/http';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {EventEmitter} from './EventEmitter';
+import {observable} from 'rxjs/symbol/observable';
 
 @Injectable()
 export class ChatService {
+
+  // friendsListSource: BehaviorSubject<User[]>;
+  // friendsList = this.friendsListSource.asObservable();
 
   userSource = new BehaviorSubject<User>(null);
   receiverSource = new BehaviorSubject<User>(null);
@@ -15,6 +19,7 @@ export class ChatService {
 
 
   constructor(private http: Http, private eventEmitter: EventEmitter) {
+
     this.eventEmitter.isReady.subscribe(ready => {
       if (ready) {
         this.eventEmitter.user.subscribe(user => {
@@ -36,7 +41,21 @@ export class ChatService {
     });
   }
 
+  // getFriendsList(user:User){
+  //         this.eventEmitter.emitEvent({name: 'getFriendsList',arguments: user});
+  // }
 
+  sendMessage(message: Message){
+    this.eventEmitter.emitEvent({name: 'sendMessage', arguments: message});
+  }
+
+  receiveMessage(): Observable<Message>{
+    return new Observable<Message>(observable => {
+      this.eventEmitter.handleEmittedEvent('newMessage').subscribe(message => {
+        return message
+      });
+    });
+  }
 
   setCurrentReceiver(receiver) {
     this.receiverSource.next(receiver);

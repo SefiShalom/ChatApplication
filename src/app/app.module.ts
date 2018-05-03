@@ -15,6 +15,7 @@ import { RegisterService } from './services/register.service';
 import { ChatComponent } from './components/chat/chat.component';
 import {ChatService} from './services/chat.service';
 import {Routing} from './app.routing';
+import {ChatlistItemService} from './services/chatlistitem.service';
 
 @NgModule({
   declarations: [
@@ -25,14 +26,14 @@ import {Routing} from './app.routing';
     LoginComponent,
     RegisterComponent,
     ChatComponent,
-  ],
+    ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     Routing
   ],
-  providers: [EventEmitter, LoginService, RegisterService, ChatService],
+  providers: [EventEmitter, LoginService, RegisterService, ChatService, ChatlistItemService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -111,6 +111,35 @@ io.on('connection', function (socket) {
     //   });
     // }
 
+    socket.on('getFriendsList',function(user) {
+      var userID = user._id;
+      User.aggregate([{
+        $lookup: {
+          from: "users",
+          localField: "friends",
+          foreignField: "_id",
+          as: "friendsList"
+        }
+      }, {
+        $match: {
+          "_id": new mongoose.Types.ObjectId(userID)
+        }
+      }, {
+        $project: {
+          "friendsList": 1,
+        }
+      }
+      ], function (err, result) {
+        if (err) {
+          console.log("An error occurred");
+          console.log(err);
+          return err;
+        }else{
+          socket.emit('receiveFriendsList', result[0]);
+        }
+      });
+    });
+
     message.save(function(err){
       console.log('saving message');
       if(err){

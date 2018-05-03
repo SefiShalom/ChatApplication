@@ -19,6 +19,7 @@ export class ChatwindowComponent implements OnInit {
   receiver: User;
   conversationID: string;
   socketID: string;
+  // window: Element = null;
 
   constructor(private chatService: ChatService, private eventEmitter: EventEmitter) {
     this.messages = [];
@@ -42,6 +43,7 @@ export class ChatwindowComponent implements OnInit {
             message.class = 'received';
           }
           this.messages = messages;
+          // this.scrollToBottom();
         });
       }
     });
@@ -50,26 +52,29 @@ export class ChatwindowComponent implements OnInit {
       console.log('chatwindow receiver: ');
       if(receiver){
         this.receiver = receiver;
+        // this.window = document.getElementById('messaging-window');
         this.eventEmitter.emitEvent({
           name:'getConversation',
-       arguments: {user1: this.user._id, user2: this.receiver._id}});
+       arguments: {user1: this.user._id, user2: this.receiver._id}
+        });
       }
     });
   }
 
   initialEvents(){
-
     this.eventEmitter.isReady.subscribe(isReady => {
 
       if (isReady) {
 
-        console.log('6. ChatwindowComponent: server emmiter is ready. initializing events.');
+        console.log('6. ChatwindowComponent: server emitter is ready. initializing events.');
 
         this.eventEmitter.handleEmittedEvent('newMessage').subscribe(msg => {
           console.log(msg.senderID + ": " + msg.content);
           msg.class = 'received';
           console.log(msg);
           this.messages.push(msg);
+
+         // this.scrollToBottom();
         });
 
         this.eventEmitter.handleEmittedEvent('receiveSocketID').subscribe(sockID => {
@@ -86,21 +91,27 @@ export class ChatwindowComponent implements OnInit {
 
 
   sendButtonClick() {
+
     if (this.message) {
       var messageObject = {
         senderID: this.user._id,
         receiverID: this.receiver._id,
         conversationID: "",
-        // date: null,
-        // time: null,
+        date: Date.now().toLocaleString(),
+        time: "",
         class: 'sent',
         content: this.message
       };
 
       console.log(this.user._id +": " + messageObject.content);
-      this.eventEmitter.emitEvent({name: 'sendMessage', arguments: messageObject});
+      this.chatService.sendMessage(messageObject);
       this.messages.push(messageObject);
       this.message = '';
+      this.scrollToBottom();
     }
+  }
+
+  scrollToBottom() {
+    // let window = document.getElementById('messaging-window');
   }
 }
