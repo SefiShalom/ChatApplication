@@ -10,13 +10,10 @@ import {observable} from 'rxjs/symbol/observable';
 @Injectable()
 export class ChatService {
 
-  // friendsListSource: BehaviorSubject<User[]>;
-  // friendsList = this.friendsListSource.asObservable();
-
   userSource = new BehaviorSubject<User>(null);
   receiverSource = new BehaviorSubject<User>(null);
   isReady = new BehaviorSubject<boolean>(false);
-
+  newMessageSource = new BehaviorSubject<Message>(null);
 
   constructor(private http: Http, private eventEmitter: EventEmitter) {
 
@@ -24,15 +21,16 @@ export class ChatService {
       if (ready) {
         this.eventEmitter.user.subscribe(user => {
           if(user){
-            console.log('ChatService user is ready');
             this.userSource.next(user);
             this.isReady.next(true);
           }
         });
+        this.eventEmitter.handleEmittedEvent('newMessage').subscribe(message => {
+          this.newMessageSource.next(message);
+        });
       }
     });
   }
-
 
   getFriendsList(id: string): Observable<User[]> {
     return new Observable<User[]>(observer => {
@@ -49,15 +47,17 @@ export class ChatService {
     this.eventEmitter.emitEvent({name: 'sendMessage', arguments: message});
   }
 
-  receiveMessage(): Observable<Message>{
-    return new Observable<Message>(observable => {
-      this.eventEmitter.handleEmittedEvent('newMessage').subscribe(message => {
-        return message
-      });
-    });
-  }
+  // receiveMessage(): Observable<Message>{
+  //   return new Observable<Message>(observable => {
+  //     console.log('receive message from chatservice');
+  //     this.eventEmitter.handleEmittedEvent('newMessage').subscribe(message => {
+  //       return message
+  //     });
+  //   });
+  // }
 
   setCurrentReceiver(receiver) {
     this.receiverSource.next(receiver);
   }
+
 }

@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../../interfaces/user';
 import {ChatService} from '../../services/chat.service';
-import {ChatlistitemComponent} from '../chatlistitem/chatlistitem.component';
-
-
+import {ChatlistItemComponent} from '../chatlist-item/chatlist-item.component';
+import {ChatlistItemService} from '../../services/chatlist-item.service';
 
 @Component({
   selector: 'app-chatslist',
@@ -14,12 +13,13 @@ export class ChatslistComponent implements OnInit {
 
   user: User;
   friendsList: User[];
-  friendsListMap: ChatlistitemComponent[];
   tabNavigationIndex: number;
+  serachResults: User[];
+  keyword: string;
 
-  constructor(private chatService: ChatService) {
-      this.friendsList = [];
+  constructor(private chatService: ChatService, private chatlistItemService: ChatlistItemService) {
       this.tabNavigationIndex = 0;
+      this.friendsList = [];
   }
 
   ngOnInit() {
@@ -30,6 +30,12 @@ export class ChatslistComponent implements OnInit {
             this.user = user;
             this.chatService.getFriendsList(this.user._id).subscribe(list => {
               this.friendsList = list;
+            });
+
+            this.chatService.newMessageSource.subscribe(message => {
+              if(message){
+                this.chatlistItemService.setChatlistItemNewMessage(message);
+              }
             });
           }
         });
@@ -44,4 +50,5 @@ export class ChatslistComponent implements OnInit {
   setTabNavigationView(number: number) {
     this.tabNavigationIndex = number;
   }
+
 }

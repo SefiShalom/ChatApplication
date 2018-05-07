@@ -33,9 +33,7 @@ export class LoginComponent implements OnInit {
           console.log('login user:');
           console.log(res);
           this.appendErrorMessage("");
-          console.log('2. LoginComponent: received user from DB. setting user.');
           this.loginService.user.next(res.user);
-          console.log('3. LoginComponent: setting login service isLoggedIn to true');
           this.loginService.isLoggedIn.next(true);
           this.loginService.isLoggedIn.complete();
           this.router.navigate(['./chat']);
