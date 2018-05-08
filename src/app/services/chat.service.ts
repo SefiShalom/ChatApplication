@@ -27,6 +27,7 @@ export class ChatService {
           }
         });
         this.eventEmitter.handleEmittedEvent('newMessage').subscribe(message => {
+          message.class = 'received';
           this.newMessageSource.next(message);
         });
       }
