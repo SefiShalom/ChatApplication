@@ -48,8 +48,6 @@ io.on('connection', function (socket) {
 
 
   socket.on('registerClientToClients', function(user){
-    console.log('USER: ');
-    console.log(user);
     var id = new mongoose.Types.ObjectId(user._id);
       User.update({_id: id}, {socketID: socketID, online: true}, function(err){
         if(err){
@@ -67,9 +65,6 @@ io.on('connection', function (socket) {
 
 
   socket.on('getConversation',function(users){
-
-    // var user1 = new mongoose.Types.ObjectId(users.user1);
-    // var user2 = new mongoose.Types.ObjectId(users.user2);
 
     Message.find({$or: [
       {$and: [{receiverID: users.user2}, {senderID: users.user1}]},
@@ -95,21 +90,6 @@ io.on('connection', function (socket) {
       receiverID: messageObject.receiverID,
       content: messageObject.content
     });
-
-    // if(!message.conversationID){
-    //   console.log('no conv id');
-    //   var conversation = new Conversation({
-    //     users: [message.senderID, message.receiverID],
-    //   });
-    //
-    //   conversation.save(function(err, conv){
-    //     if(err){
-    //       console.log(err);
-    //     }else{
-    //       message.conversationID = conv._id;
-    //     }
-    //   });
-    // }
 
     socket.on('getFriendsList',function(user) {
       var userID = user._id;
@@ -141,19 +121,16 @@ io.on('connection', function (socket) {
     });
 
     message.save(function(err){
-      console.log('saving message');
       if(err){
         console.log(err);
       }else{
         // sends the message to the client.
-        console.log(messageObject.senderID + ": " + messageObject.content);
         var receiver = clients.get(messageObject.receiverID);
         if(receiver){
           receiver.emit('newMessage',messageObject);
         }
       }
     });
-
   });
 
   socket.on('disconnect', function () {

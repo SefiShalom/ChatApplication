@@ -20,24 +20,11 @@ export class EventEmitter implements OnInit {
     this.loginService.isLoggedIn.subscribe(login => {
 
       if (login) {
-
-        console.log('5. ServerEventEmmiter: initializing server event emitter');
-
         this.loginService.user.subscribe(user => {
           if (user) {
-
-            console.log('eventEmmiter user:');
-            console.log(user);
-
             this.initServerEventsEmitter();
-
-            console.log('registering client to Clients');
-
             this.handleEmittedEvent('clientRegistrationResponse').subscribe(res => {
               if (res.isRegistered) {
-                console.log('user received socketID:');
-                console.log(res.socketID);
-                user.socketID = res.socketID;
                 this.user.next(user);
                 this.isReady.next(true);
               }
@@ -55,7 +42,7 @@ export class EventEmitter implements OnInit {
 
   initServerEventsEmitter() {
     console.log('Server emitter on init');
-    this.socket = io('http://localhost:3000');
+    this.socket = io('http://192.168.1.10:3000');
     this.socket.on('connect', () => {
       console.log('connected to the server');
     });

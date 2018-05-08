@@ -2,13 +2,14 @@
   <div class="login-page">
     <div class="form">
       <h2 class="fs-title">Registration page</h2>
-      <img [src]="profilePicture" />
+        <img [src]="profilePicture" (click)="imageInput.click()"/>
+        <input type="file" accept="image/*" #imageInput style="display: none" (change)="onImageSelected($event)"/>
       <div class="login-form" (keyup)="validateForm()">
         <div class="col-lg-6">
-          <input type="text" [(ngModel)]="firstName" placeholder="Name" />
+          <input class="form-input" type="text" [(ngModel)]="firstName" placeholder="Name" />
         </div>
         <div class="col-lg-6">
-          <input class="col-lg-6" type="text" [(ngModel)]="lastName" placeholder="Last Name" />
+          <input type="text" [(ngModel)]="lastName" placeholder="Last Name" />
         </div>
         <div class="col-lg-6">
           <input type="text" [(ngModel)]="nickname" placeholder="Nickname" />
@@ -17,10 +18,10 @@
           <input type="text" [(ngModel)]="email" placeholder="Email" />
         </div>
         <div class="col-lg-6">
-          <input class="col-lg-6" type="password" [(ngModel)]="password" placeholder="Password" />
+          <input type="password" [(ngModel)]="password" placeholder="Password" />
         </div>
         <div class="col-lg-6">
-          <input class="col-lg-6" type="password" [(ngModel)]="confirmPass" placeholder="Confirm Password" />
+          <input type="password" [(ngModel)]="confirmPass" placeholder="Confirm Password" />
         </div>
         <button (click)="register()">Register</button>
       </div>

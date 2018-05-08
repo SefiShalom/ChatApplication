@@ -31,12 +31,7 @@ img{
   margin-top: 10%;
 }
 
-/*.chat-item{*/
-  /*height: 75px;*/
-  /*padding: 2%;*/
-/*}*/
-
-.chat-item:hover{
+app-chatlist-item:hover{
   background-color: lightgrey;
   cursor: pointer;
 }
@@ -44,9 +39,7 @@ img{
 .header{
   padding: 2%;
   background-color: #008000;
-  /*background-color: #4caf50;*/
   height: 65px;
-  /*border-right: 2px solid darkgray;*/
 }
 
 #chatslist-navbar{
@@ -61,7 +54,6 @@ img{
 }
 
 .chatslist-navbar-item:hover{
-  /*background-color: #96e6a1;*/
   cursor: pointer;
 }
 

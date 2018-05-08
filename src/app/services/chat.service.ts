@@ -12,8 +12,9 @@ export class ChatService {
 
   userSource = new BehaviorSubject<User>(null);
   receiverSource = new BehaviorSubject<User>(null);
-  isReady = new BehaviorSubject<boolean>(false);
   newMessageSource = new BehaviorSubject<Message>(null);
+  isReady = new BehaviorSubject<boolean>(false);
+  conversationSource = new BehaviorSubject<Message[]>(null);
 
   constructor(private http: Http, private eventEmitter: EventEmitter) {
 
@@ -39,22 +40,10 @@ export class ChatService {
     });
   }
 
-  // getFriendsList(user:User){
-  //         this.eventEmitter.emitEvent({name: 'getFriendsList',arguments: user});
-  // }
-
   sendMessage(message: Message){
     this.eventEmitter.emitEvent({name: 'sendMessage', arguments: message});
+    this.newMessageSource.next(message);
   }
-
-  // receiveMessage(): Observable<Message>{
-  //   return new Observable<Message>(observable => {
-  //     console.log('receive message from chatservice');
-  //     this.eventEmitter.handleEmittedEvent('newMessage').subscribe(message => {
-  //       return message
-  //     });
-  //   });
-  // }
 
   setCurrentReceiver(receiver) {
     this.receiverSource.next(receiver);

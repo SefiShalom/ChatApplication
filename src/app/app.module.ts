@@ -13,8 +13,8 @@ import { RegisterService } from './services/register.service';
 import { ChatComponent } from './components/chat/chat.component';
 import {ChatService} from './services/chat.service';
 import {Routing} from './app.routing';
-import { ChatlistItemComponent } from './components/chatlist-item/chatlist-item.component';
-import {ChatlistItemService} from './services/chatlist-item.service';
+import { ChatslistItemComponent } from './components/chatlist-item/chatslist-item.component';
+import {ChatslistItemService} from './services/chatslist-item.service';
 
 
 @NgModule({
@@ -25,7 +25,7 @@ import {ChatlistItemService} from './services/chatlist-item.service';
     LoginComponent,
     RegisterComponent,
     ChatComponent,
-    ChatlistItemComponent,
+    ChatslistItemComponent,
     ],
   imports: [
     BrowserModule,
@@ -33,7 +33,7 @@ import {ChatlistItemService} from './services/chatlist-item.service';
     HttpModule,
     Routing
   ],
-  providers: [EventEmitter, LoginService, RegisterService, ChatService, ChatlistItemService],
+  providers: [EventEmitter, LoginService, RegisterService, ChatService, ChatslistItemService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

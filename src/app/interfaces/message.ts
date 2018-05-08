@@ -5,5 +5,6 @@ export interface Message {
   date: number,
   time: string,
   class: string,
+  read: boolean,
   content: string
 }

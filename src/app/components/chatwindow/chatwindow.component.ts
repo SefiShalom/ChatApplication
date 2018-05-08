@@ -19,11 +19,9 @@ export class ChatwindowComponent implements OnInit {
   receiver: User;
   conversationID: string;
   socketID: string;
-  // window: Element = null;
 
   constructor(private chatService: ChatService, private eventEmitter: EventEmitter) {
     this.messages = [];
-    // console.log('chat window chat service ID: ' + this.chatService.id);
   }
 
   ngOnInit() {
@@ -51,7 +49,6 @@ export class ChatwindowComponent implements OnInit {
             message.class = 'received';
           }
           this.messages = messages;
-          // this.scrollToBottom();
         });
       }
     });
@@ -60,7 +57,6 @@ export class ChatwindowComponent implements OnInit {
     this.chatService.receiverSource.subscribe(receiver => {
       if(receiver){
         this.receiver = receiver;
-        // this.window = document.getElementById('messaging-window');
         this.eventEmitter.emitEvent({
           name:'getConversation',
        arguments: {user1: this.user._id, user2: this.receiver._id}
@@ -73,31 +69,13 @@ export class ChatwindowComponent implements OnInit {
     this.eventEmitter.isReady.subscribe(isReady => {
 
       if (isReady) {
-
-        this.eventEmitter.handleEmittedEvent('newMessage').subscribe(msg => {
-          msg.class = 'received';
-          console.log(msg);
-          this.messages.push(msg);
-
-         // this.scrollToBottom();
-        });
-
-        // this.chatService.receiveMessage().subscribe(message => {
-        //     message.class = 'received';
-        //     this.messages.push(message);
-        // });
-
         this.eventEmitter.handleEmittedEvent('receiveSocketID').subscribe(sockID => {
           this.socketID = sockID;
         });
-
-        // console.log('7. ChatwindowComponent: About to crash');
-        // this.eventEmitter.emitEvent({name: 'getSocketID', arguments: {id: this.receiver.userID}});
       }
 
     });
   }
-
 
   sendButtonClick() {
 
@@ -109,6 +87,7 @@ export class ChatwindowComponent implements OnInit {
         date: Date.now(),
         time: "",
         class: 'sent',
+        read: false,
         content: this.message
       };
 

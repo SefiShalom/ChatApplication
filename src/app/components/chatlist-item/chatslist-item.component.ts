@@ -1,20 +1,20 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {User} from '../../interfaces/user';
 import {Message} from '../../interfaces/message';
-import {ChatlistItemService} from '../../services/chatlist-item.service';
+import {ChatslistItemService} from '../../services/chatslist-item.service';
 
 @Component({
   selector: 'app-chatlist-item',
-  templateUrl: './chatlist-item.component.html',
-  styleUrls: ['./chatlist-item.component.css']
+  templateUrl: './chatslist-item.component.html',
+  styleUrls: ['./chatslist-item.component.css']
 })
-export class ChatlistItemComponent implements OnInit {
+export class ChatslistItemComponent implements OnInit {
 
   @Input() user: User;
   private lastMessage: Message;
   private newMessageCount: number;
 
-  constructor(private chatlistItemService: ChatlistItemService) {
+  constructor(private chatlistItemService: ChatslistItemService) {
     this.lastMessage = null;
     this.newMessageCount = 0;
   }
