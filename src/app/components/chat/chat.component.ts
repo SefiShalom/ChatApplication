@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {User} from '../../interfaces/user';
 // import {ChatwindowComponent} from '../chatwindow/chatwindow.component';
 // import {ChatslistComponent} from '../chatslist/chatslist.component';
-import {EventEmitter} from '../../services/EventEmitter';
+import {ServerEventEmitter} from '../../services/ServerEventEmitter';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Router} from '@angular/router';
 import {ChatService} from '../../services/chat.service';

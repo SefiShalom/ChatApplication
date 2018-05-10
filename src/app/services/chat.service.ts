@@ -4,8 +4,7 @@ import {Message} from '../interfaces/message';
 import {Observable} from 'rxjs/Observable';
 import {Http} from '@angular/http';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {EventEmitter} from './EventEmitter';
-import {observable} from 'rxjs/symbol/observable';
+import {ServerEventEmitter} from './ServerEventEmitter';
 
 @Injectable()
 export class ChatService {
@@ -16,7 +15,7 @@ export class ChatService {
   isReady = new BehaviorSubject<boolean>(false);
   conversationSource = new BehaviorSubject<Message[]>(null);
 
-  constructor(private http: Http, private eventEmitter: EventEmitter) {
+  constructor(private http: Http, private eventEmitter: ServerEventEmitter) {
 
     this.eventEmitter.isReady.subscribe(ready => {
       if (ready) {
@@ -49,5 +48,4 @@ export class ChatService {
   setCurrentReceiver(receiver) {
     this.receiverSource.next(receiver);
   }
-
 }

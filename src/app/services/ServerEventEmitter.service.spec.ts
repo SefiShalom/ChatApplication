@@ -1,16 +1,16 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { EventEmitter } from './EventEmitter';
+import { ServerEventEmitter } from './ServerEventEmitter';
 
 describe('ChatserviceService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [EventEmitter]
+      providers: [ServerEventEmitter]
     });
   });
 
-  it('should ...', inject([EventEmitter], (service: EventEmitter) => {
+  it('should ...', inject([ServerEventEmitter], (service: ServerEventEmitter) => {
     expect(service).toBeTruthy();
   }));
 });

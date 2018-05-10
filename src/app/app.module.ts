@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import {EventEmitter} from './services/EventEmitter'
+import {ServerEventEmitter} from './services/ServerEventEmitter'
 import {LoginService} from './services/login.service'
 import { AppComponent } from './app.component';
 import { ChatwindowComponent } from './components/chatwindow/chatwindow.component';
@@ -33,7 +33,7 @@ import {ChatslistItemService} from './services/chatslist-item.service';
     HttpModule,
     Routing
   ],
-  providers: [EventEmitter, LoginService, RegisterService, ChatService, ChatslistItemService],
+  providers: [ServerEventEmitter, LoginService, RegisterService, ChatService, ChatslistItemService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -8,7 +8,7 @@ import {User} from '../interfaces/user';
 import {Router} from '@angular/router';
 
 @Injectable()
-export class EventEmitter implements OnInit {
+export class ServerEventEmitter implements OnInit {
 
   private socket: SocketIOClient.Socket;
   public isReady = new BehaviorSubject<Boolean>(false);
@@ -42,7 +42,7 @@ export class EventEmitter implements OnInit {
 
   initServerEventsEmitter() {
     console.log('Server emitter on init');
-    this.socket = io('http://192.168.1.10:3000');
+    this.socket = io('http://localhost:3000');
     this.socket.on('connect', () => {
       console.log('connected to the server');
     });

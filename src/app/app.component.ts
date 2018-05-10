@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {LoginService} from './services/login.service';
-import {EventEmitter} from './services/EventEmitter';
+import {ServerEventEmitter} from './services/ServerEventEmitter';
 import {User} from './interfaces/user';
 
 

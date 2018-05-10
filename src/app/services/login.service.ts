@@ -7,7 +7,7 @@ import {User} from '../interfaces/user';
 import {LoginForm} from '../interfaces/loginForm';
 import {LoginResponse} from '../interfaces/loginresponse';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {EventEmitter} from './EventEmitter';
+import {ServerEventEmitter} from './ServerEventEmitter';
 
 @Injectable()
 export class LoginService {

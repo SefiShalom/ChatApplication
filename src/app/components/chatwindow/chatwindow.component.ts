@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Message} from '../../interfaces/message';
-import {EventEmitter} from '../../services/EventEmitter';
+import {ServerEventEmitter} from '../../services/ServerEventEmitter';
 import {User} from '../../interfaces/user';
 import {ChatService} from '../../services/chat.service';
 import {LoginService} from '../../services/login.service';
@@ -20,7 +20,7 @@ export class ChatwindowComponent implements OnInit {
   conversationID: string;
   socketID: string;
 
-  constructor(private chatService: ChatService, private eventEmitter: EventEmitter) {
+  constructor(private chatService: ChatService, private eventEmitter: ServerEventEmitter) {
     this.messages = [];
   }
 
