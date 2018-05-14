@@ -1,21 +1,6 @@
-.tab-view{
-  height: 500px;
-  margin:0;
-  background-color: white;
-  overflow-y: scroll;
-}
-
-.list-group{
-  border-radius: 0;
-}
-
 .col-lg-4{
   margin:0;
   padding: 0;
-}
-
-#left-chats-menu{
-  height: 100%;
 }
 
 img{
@@ -25,61 +10,7 @@ img{
   float: left
 }
 
-#user-title{
-  color: white;
-  font-size: 17px;
-  margin-top: 10%;
-}
-
 app-chatlist-item:hover{
   background-color: lightgrey;
   cursor: pointer;
-}
-
-.header{
-  padding: 2%;
-  background-color: #008000;
-  height: 65px;
-}
-
-#chatslist-navbar{
-  height: 50px;
-  background-color: #4caf50;
-  text-align: center;
-}
-
-.chatslist-navbar-item{
-  color: #FFFFFF;
-  padding: 15px;
-}
-
-.chatslist-navbar-item:hover{
-  cursor: pointer;
-}
-
-.hiddenTab{
-  display: none;
-}
-
-.selectedTab{
-  background-color: #96e6a1;
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
 }

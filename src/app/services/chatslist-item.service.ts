@@ -33,6 +33,5 @@ export class ChatslistItemService {
       }else{
         this.friendsListMap.get(message.senderID).setLastMessage(message);
       }
-
     }
 }

@@ -25,8 +25,9 @@ db.on('error', console.error.bind(console, 'MongoDB connection error!\n'));
 app.use('/', mainRequests);
 app.use('/user', userRequests);
 app.use('/login', loginRequests);
+
 app.use(express.static(path.join(__dirname, 'dist')));
-app.use(express.static(path.join(__dirname, 'src')));
+// app.use(express.static(path.join(__dirname, 'src')));
 app.use(bodyParser.json());
 
 var port = process.env.PORT || 3000;
@@ -63,22 +64,18 @@ io.on('connection', function (socket) {
       });
   });
 
-
   socket.on('getConversation',function(users){
-
+    console.log(users);
     Message.find({$or: [
       {$and: [{receiverID: users.user2}, {senderID: users.user1}]},
         {$and: [{receiverID: users.user1}, {senderID: users.user2}]}]},function (err,messages) {
         if(err){
           console.log(err);
-        }else if(messages.length === []){
-          socket.emit('receiveConversation',null);
         }else{
-          socket.emit('receiveConversation',messages);
+          socket.emit('receiveConversation',{user_id: users.user1, messages: messages});
         }
     });
   });
-
 
   socket.on('sendMessage', function (messageObject) {
 
@@ -89,35 +86,6 @@ io.on('connection', function (socket) {
       senderID: messageObject.senderID,
       receiverID: messageObject.receiverID,
       content: messageObject.content
-    });
-
-    socket.on('getFriendsList',function(user) {
-      var userID = user._id;
-      User.aggregate([{
-        $lookup: {
-          from: "users",
-          localField: "friends",
-          foreignField: "_id",
-          as: "friendsList"
-        }
-      }, {
-        $match: {
-          "_id": new mongoose.Types.ObjectId(userID)
-        }
-      }, {
-        $project: {
-          "friendsList": 1,
-        }
-      }
-      ], function (err, result) {
-        if (err) {
-          console.log("An error occurred");
-          console.log(err);
-          return err;
-        }else{
-          socket.emit('receiveFriendsList', result[0]);
-        }
-      });
     });
 
     message.save(function(err){
@@ -132,6 +100,67 @@ io.on('connection', function (socket) {
       }
     });
   });
+
+
+  socket.on('getFriendsList',function(user) {
+
+    var userID = user.user_id;
+
+    User.aggregate([{
+      $lookup: {
+        from: "users",
+        localField: "friends",
+        foreignField: "_id",
+        as: "friendsList"
+      }
+    }, {
+      $match: {
+        "_id": new mongoose.Types.ObjectId(userID)
+      }
+    }, {
+      $project: {
+        "_id": 0,
+        "friendsList._id": 1,
+        "friendsList.name": 1,
+        "friendsList.last_name": 1,
+        "friendsList.profile_picture": 1,
+        "friendsList.nickname": 1
+      }
+    }
+    ], function (err, result) {
+      if (err) {
+        console.log("An error occurred");
+        console.log(err);
+        return err;
+      }else{
+
+        var friends = result[0].friendsList;
+        var finalFriendsList = [];
+        var doneCounter = 0;
+
+        friends.forEach(function(friend){
+          Message.find({$or: [
+              {$and: [{receiverID: friend._id}, {senderID: userID}]},
+              {$and: [{receiverID: userID}, {senderID: friend._id}]}]},function (err,messages) {
+            if(err){
+              console.log(err);
+            }else{
+              friend.messages = messages;
+              finalFriendsList.push(friend);
+              doneCounter++;
+              if(doneCounter == friends.length){
+                socket.emit('receiveFriendsList', finalFriendsList);
+              }
+            }
+          });
+        });
+      }
+    });
+  });
+
+  // socket.on('searchFriend', function (searchTerms) {
+  //     User.find({})
+  // });
 
   socket.on('disconnect', function () {
     console.log(socket.id + " was disconnected!");

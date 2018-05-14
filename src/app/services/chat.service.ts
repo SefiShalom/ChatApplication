@@ -5,15 +5,17 @@ import {Observable} from 'rxjs/Observable';
 import {Http} from '@angular/http';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {ServerEventEmitter} from './ServerEventEmitter';
+import {ReceiverSource} from '../interfaces/receiversource';
+import {Friend} from '../interfaces/friends';
 
 @Injectable()
 export class ChatService {
 
   userSource = new BehaviorSubject<User>(null);
-  receiverSource = new BehaviorSubject<User>(null);
+  receiverSource = new BehaviorSubject<Friend>(null);
   newMessageSource = new BehaviorSubject<Message>(null);
   isReady = new BehaviorSubject<boolean>(false);
-  conversationSource = new BehaviorSubject<Message[]>(null);
+  friendsListSource = new BehaviorSubject<Friend[]>(null);
 
   constructor(private http: Http, private eventEmitter: ServerEventEmitter) {
 
@@ -21,23 +23,32 @@ export class ChatService {
       if (ready) {
         this.eventEmitter.user.subscribe(user => {
           if(user){
+
+            this.eventEmitter.handleEmittedEvent('receiveFriendsList').subscribe(list => {
+              if(list){
+                this.friendsListSource.next(list);
+              }
+            });
+
+            this.eventEmitter.handleEmittedEvent('newMessage').subscribe(message => {
+              message.class = 'received';
+              this.newMessageSource.next(message);
+            });
+
             this.userSource.next(user);
             this.isReady.next(true);
           }
-        });
-        this.eventEmitter.handleEmittedEvent('newMessage').subscribe(message => {
-          message.class = 'received';
-          this.newMessageSource.next(message);
         });
       }
     });
   }
 
-  getFriendsList(id: string): Observable<User[]> {
-    return new Observable<User[]>(observer => {
-      this.http.get('/user/get-user-friends-list?id=' + id).subscribe(
-        res => observer.next(res.json()));
-    });
+  getConversation(friend_id: string ,user_id: string){
+    this.eventEmitter.emitEvent({name: 'getConversation', arguments:{user1: friend_id, user2: user_id}});
+  }
+
+  getFriendsList(id: string) {
+    this.eventEmitter.emitEvent({name: 'getFriendsList', arguments: {user_id: id}});
   }
 
   sendMessage(message: Message){
@@ -48,4 +59,10 @@ export class ChatService {
   setCurrentReceiver(receiver) {
     this.receiverSource.next(receiver);
   }
+}
+
+
+export interface ConversationMessages {
+  user_id: string;
+  messages: Message[];
 }

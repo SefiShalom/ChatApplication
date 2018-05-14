@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {User} from '../../interfaces/user';
 import {ChatService} from '../../services/chat.service';
 import {ChatslistItemService} from '../../services/chatslist-item.service';
+import {ReceiverSource} from '../../interfaces/receiversource';
+import {ChatslistItemComponent} from '../chatlist-item/chatslist-item.component';
+import {Friend} from '../../interfaces/friends';
 
 @Component({
   selector: 'app-chatslist',
@@ -11,13 +14,9 @@ import {ChatslistItemService} from '../../services/chatslist-item.service';
 export class ChatslistComponent implements OnInit {
 
   user: User;
-  friendsList: User[];
-  tabNavigationIndex: number;
-  serachResults: User[];
-  keyword: string;
+  friendsList: Friend[];
 
   constructor(private chatService: ChatService, private chatlistItemService: ChatslistItemService) {
-      this.tabNavigationIndex = 0;
       this.friendsList = [];
   }
 
@@ -27,10 +26,13 @@ export class ChatslistComponent implements OnInit {
         this.chatService.userSource.subscribe(user => {
           if (user) {
             this.user = user;
-            this.chatService.getFriendsList(this.user._id).subscribe(list => {
-              this.friendsList = list;
+            this.chatService.friendsListSource.subscribe(list => {
+              if(list){
+                console.log('chatslist component: handling friendslist');
+                console.log(list);
+                this.friendsList = list;
+              }
             });
-
             this.chatService.newMessageSource.subscribe(message => {
               if(message){
                 this.chatlistItemService.setChatlistItemNewMessage(message);
@@ -40,14 +42,12 @@ export class ChatslistComponent implements OnInit {
         });
       }
     });
+
+    this.chatService.getFriendsList(this.user._id);
   }
 
   setCurrentReceiver(receiver) {
     this.chatService.setCurrentReceiver(receiver);
-  }
-
-  setTabNavigationView(number: number) {
-    this.tabNavigationIndex = number;
   }
 
 }

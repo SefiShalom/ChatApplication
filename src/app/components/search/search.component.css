@@ -1,0 +1,18 @@
+.search-bar{
+  margin: 0;
+  padding: 0;
+}
+
+.input-group{
+  margin: 0;
+  border-radius: 0;
+}
+
+.input-group *{
+  border-radius: 0;
+}
+
+a:hover{
+  cursor: pointer;
+}
+

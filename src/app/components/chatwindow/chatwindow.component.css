@@ -40,13 +40,20 @@ img{
   width: 30%;
   max-width: 100%;
   margin: 8px;
+}
+
+.message-content{
   border-radius: 25px;
   box-sizing: border-box;
   background-color: #33cc33;
   color:white;
-  padding: 5px;
-
+  /*padding-top: 10px;*/
 }
+
+.sent .message-content{
+  padding-left: 5%;
+}
+
 
 #welcome-message{
   text-align: center;
@@ -57,6 +64,9 @@ img{
 border-radius: 0;
 }
 
+.message-image{
+  float: left;
+}
 
 .header{
 background-color: #008000;
@@ -72,10 +82,20 @@ background-color: #008000;
 }
 
 .received{
-  background-color: #98e698;
   float: right;
-  color: black;
 }
+
+.received .message-content{
+  background-color: #98e698;
+  color: black;
+  float: left;
+  /*margin-right: 5%;*/
+}
+
+.received .message-image{
+  float: right;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   transform: scale(1, 1);

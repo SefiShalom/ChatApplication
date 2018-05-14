@@ -57,6 +57,7 @@ export class ServerEventEmitter implements OnInit {
 
   // EMITTER
   emitEvent(event: Event) {
+    console.log(event.name);
     this.socket.emit(event.name, event.arguments);
   }
 

@@ -1,0 +1,23 @@
+<div id="search-tab">
+  <div id="search-title">
+    <h1>Find your friends</h1>
+  </div>
+  <div class="row search-bar">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{searchByfield}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li (click)="setSearchByField('Email ')"><a>Email</a></li>
+            <li (click)="setSearchByField('Name ')"><a>Name</a></li>
+            <li (click)="setSearchByField('Nickname ')"><a>Nickname</a></li>
+          </ul>
+        </div><!-- /btn-group -->
+        <input type="text" class="form-control" aria-label="...">
+      </div><!-- /input-group -->
+    </div><!-- /.row -->
+  </div>
+</div>

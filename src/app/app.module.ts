@@ -15,6 +15,10 @@ import {ChatService} from './services/chat.service';
 import {Routing} from './app.routing';
 import { ChatslistItemComponent } from './components/chatlist-item/chatslist-item.component';
 import {ChatslistItemService} from './services/chatslist-item.service';
+import {SearchService} from './services/search.service';
+import { SearchComponent } from './components/search/search.component';
+import { RequestsComponent } from './components/requests/requests.component';
+import { MenuComponent } from './components/menu/menu.component';
 
 
 @NgModule({
@@ -26,6 +30,9 @@ import {ChatslistItemService} from './services/chatslist-item.service';
     RegisterComponent,
     ChatComponent,
     ChatslistItemComponent,
+    SearchComponent,
+    RequestsComponent,
+    MenuComponent,
     ],
   imports: [
     BrowserModule,
@@ -33,7 +40,7 @@ import {ChatslistItemService} from './services/chatslist-item.service';
     HttpModule,
     Routing
   ],
-  providers: [ServerEventEmitter, LoginService, RegisterService, ChatService, ChatslistItemService],
+  providers: [ServerEventEmitter, LoginService, RegisterService, ChatService, ChatslistItemService, SearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

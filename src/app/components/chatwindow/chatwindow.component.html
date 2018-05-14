@@ -1,4 +1,4 @@
-<div id="chatting-section" class="col-lg-8 col-md-8 col-sm-4 col-xs-4">
+<div id="chatting-section" *ngIf="user" class="col-lg-8 col-md-8 col-sm-4 col-xs-4">
 
   <div id="chats-list-header" class="header">
     <div id="receiverDetails" *ngIf="receiver">
@@ -9,17 +9,21 @@
 
   <div *ngIf="receiver">
     <div id="messaging-window">
-      <div class="row" *ngFor="let msg of messages; let lastmsg = last">
-        <div class="message-display col-sm-4 col-lg-4" [ngClass]="msg.class">
-          {{msg.content}}
-          {{lastmsg? scrollToBottom(): ''}}
+      <div class="row" *ngFor="let msg of messages">
+        <div class="message-display row" [ngClass]="msg.class">
+          <div class="message-image col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <img [src]="msg.class == 'sent' ? user.profile_picture : receiver.profile_picture"/>
+          </div>
+          <div class="message-content col-lg-8 col-md-8 col-sm-8 col-xs-8">
+            {{msg.content}}
+          </div>
         </div>
       </div>
     </div>
     <div id="composing-div">
       <div class="input-group">
         <input type="text" class="form-control" id="messgae-input" [(ngModel)]="message"
-               placeholder="Type a message...">
+               placeholder="Type a message..." (keyup)="sendMessageByEnter($event)">
         <span class="input-group-btn">
         <button class="btn btn-default" style="height: 40px; border-radius: 0;" type="button"
                 (click)="sendButtonClick()">Send</button>

@@ -1,31 +1,5 @@
-<div *ngIf="user" id="left-chats-menu" class="col-lg-4 col-md-4 col-sm-4">
-
-  <div id="chats-list-header" class="header">
-    <img style="float: left" [src]="user.profile_picture">
-    <p style="color: white; margin-left: 1%">{{user.nickname}}</p>
-  </div>
-
-  <div id="chatslist-navbar">
-    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 chatslist-navbar-item"
-         (click)="setTabNavigationView(0)" [ngClass]="{selectedTab: tabNavigationIndex == 0}">Chat</div>
-    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 chatslist-navbar-item"
-         (click)="setTabNavigationView(1)" [ngClass]="{selectedTab: tabNavigationIndex === 1}">Notifications</div>
-    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 chatslist-navbar-item"
-         (click)="setTabNavigationView(2)" [ngClass]="{selectedTab: tabNavigationIndex === 2}">Search</div>
-  </div>
-
-  <div id="chats-list" class="tab-view" [ngClass]="{hiddenTab: tabNavigationIndex != 0}">
+<div id="chats-list" *ngIf="friendsList != []" class="tab-view" [ngClass]="{hiddenTab: tabNavigationIndex != 0}">
       <app-chatlist-item *ngFor="let friend of friendsList;"
                          [user]="friend"
                          (click)="setCurrentReceiver(friend)"></app-chatlist-item>
-  </div>
-
-  <div id="requests-tab" class="tab-view" [ngClass]="{hiddenTab: tabNavigationIndex != 1}">
-    No requests
-  </div>
-
-  <div id="search-tab" class="tab-view" [ngClass]="{hiddenTab: tabNavigationIndex != 2}">
-    <input type="email" class="form-control" placeholder="Search by email..."
-      [(ngModel)]="keyword">
-  </div>
 </div>

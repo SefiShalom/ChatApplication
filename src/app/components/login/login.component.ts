@@ -30,8 +30,6 @@ export class LoginComponent implements OnInit {
 
       this.loginService.login(loginForm).subscribe(res => {
         if(res.login) {
-          console.log('login user:');
-          console.log(res);
           this.appendErrorMessage("");
           this.loginService.user.next(res.user);
           this.loginService.isLoggedIn.next(true);

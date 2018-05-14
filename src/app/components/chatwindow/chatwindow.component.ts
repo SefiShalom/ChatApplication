@@ -3,7 +3,7 @@ import {Message} from '../../interfaces/message';
 import {ServerEventEmitter} from '../../services/ServerEventEmitter';
 import {User} from '../../interfaces/user';
 import {ChatService} from '../../services/chat.service';
-import {LoginService} from '../../services/login.service';
+import {Friend} from '../../interfaces/friends';
 
 @Component({
   selector: 'app-chatwindow',
@@ -16,7 +16,7 @@ export class ChatwindowComponent implements OnInit {
   messages: Message[];
   message: string;
   user: User;
-  receiver: User;
+  receiver: Friend;
   conversationID: string;
   socketID: string;
 
@@ -29,26 +29,13 @@ export class ChatwindowComponent implements OnInit {
       if (user) {
         this.user = user;
         this.initialEvents();
-
         this.chatService.newMessageSource.subscribe(message => {
           if(message && this.receiver){
             if(message.senderID === this.receiver._id){
+              message.class = 'received';
               this.messages.push(message);
             }
           }
-        });
-      }
-    });
-
-    this.eventEmitter.handleEmittedEvent('receiveConversation').subscribe(messages => {
-      if(messages.length == 0){
-        this.messages = [];
-      }else {
-        messages.forEach(message => {
-          if (message.receiverID == this.user._id) {
-            message.class = 'received';
-          }
-          this.messages = messages;
         });
       }
     });
@@ -57,28 +44,29 @@ export class ChatwindowComponent implements OnInit {
     this.chatService.receiverSource.subscribe(receiver => {
       if(receiver){
         this.receiver = receiver;
-        this.eventEmitter.emitEvent({
-          name:'getConversation',
-       arguments: {user1: this.user._id, user2: this.receiver._id}
+        this.receiver.messages.forEach(message => {
+          if (message.receiverID == this.user._id) {
+            message.class = 'received';
+          }else{
+            message.class = 'sent';
+          }
         });
+        this.messages = this.receiver.messages;
       }
     });
   }
 
   initialEvents(){
     this.eventEmitter.isReady.subscribe(isReady => {
-
       if (isReady) {
         this.eventEmitter.handleEmittedEvent('receiveSocketID').subscribe(sockID => {
           this.socketID = sockID;
         });
       }
-
     });
   }
 
   sendButtonClick() {
-
     if (this.message) {
       var messageObject = {
         senderID: this.user._id,
@@ -97,6 +85,13 @@ export class ChatwindowComponent implements OnInit {
       this.scrollToBottom();
     }
   }
+
+  sendMessageByEnter(event){
+    if(event.code == 13){
+      this.sendButtonClick();
+    }
+  }
+
 
   scrollToBottom() {
     // let window = document.getElementById('messaging-window');
