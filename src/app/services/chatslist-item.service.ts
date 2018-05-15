@@ -29,9 +29,9 @@ export class ChatslistItemService {
 
   setChatlistItemNewMessage(message: Message){
     if(message.senderID == this.user._id){
-        this.friendsListMap.get(message.receiverID).setLastMessage(message);
+        this.friendsListMap.get(message.receiverID).pushMessage(message);
       }else{
-        this.friendsListMap.get(message.senderID).setLastMessage(message);
+        this.friendsListMap.get(message.senderID).pushMessage(message);
       }
     }
 }

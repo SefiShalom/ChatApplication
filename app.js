@@ -3,7 +3,6 @@ const app = express();
 const socketIO = require('socket.io');
 const http = require('http');
 const mongoose = require("mongoose");
-autoIncrement = require('mongoose-auto-increment');
 mongoose.Promise = require("bluebird");
 const bodyParser = require('body-parser');
 const path = require("path");
@@ -138,22 +137,27 @@ io.on('connection', function (socket) {
         var finalFriendsList = [];
         var doneCounter = 0;
 
-        friends.forEach(function(friend){
-          Message.find({$or: [
-              {$and: [{receiverID: friend._id}, {senderID: userID}]},
-              {$and: [{receiverID: userID}, {senderID: friend._id}]}]},function (err,messages) {
-            if(err){
-              console.log(err);
-            }else{
-              friend.messages = messages;
-              finalFriendsList.push(friend);
-              doneCounter++;
-              if(doneCounter == friends.length){
-                socket.emit('receiveFriendsList', finalFriendsList);
+        if(friends.length === 0){
+          finalFriendsList.push(null);
+          socket.emit('receiveFriendsList', finalFriendsList);
+        }else{
+          friends.forEach(function(friend){
+            Message.find({$or: [
+                {$and: [{receiverID: friend._id}, {senderID: userID}]},
+                {$and: [{receiverID: userID}, {senderID: friend._id}]}]},function (err,messages) {
+              if(err){
+                console.log(err);
+              }else{
+                friend.messages = messages;
+                finalFriendsList.push(friend);
+                doneCounter++;
+                if(doneCounter == friends.length){
+                  socket.emit('receiveFriendsList', finalFriendsList);
+                }
               }
-            }
+            });
           });
-        });
+        }
       }
     });
   });
@@ -161,6 +165,20 @@ io.on('connection', function (socket) {
   // socket.on('searchFriend', function (searchTerms) {
   //     User.find({})
   // });
+
+
+
+  socket.on('searchFriends', function(searchTerm){
+    var keywords = searchTerm.keywords;
+
+    User.find({$regex: {$search: keywords}}, function(err, users){
+      if(err){
+        console.log(err);
+      }
+      console.log(users);
+    });
+  });
+
 
   socket.on('disconnect', function () {
     console.log(socket.id + " was disconnected!");

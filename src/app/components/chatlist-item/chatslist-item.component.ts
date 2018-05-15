@@ -38,6 +38,11 @@ export class ChatslistItemComponent implements OnInit {
     this.setLastMessage(this.messages[this.messages.length - 1]);
   }
 
+  pushMessage(message: Message){
+    this.messages.push(message);
+    this.setLastMessage(message);
+  }
+
   incrementNewMessageCount(){
     this.newMessageCount++;
   }

@@ -16,7 +16,7 @@
             <li (click)="setSearchByField('Nickname ')"><a>Nickname</a></li>
           </ul>
         </div><!-- /btn-group -->
-        <input type="text" class="form-control" aria-label="...">
+        <input type="text" class="form-control" aria-label="..." (keyup)="onKeyUp($event)">
       </div><!-- /input-group -->
     </div><!-- /.row -->
   </div>

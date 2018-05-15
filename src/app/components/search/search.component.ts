@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {SearchService} from '../../services/search.service';
 
 @Component({
   selector: 'app-search',
@@ -11,7 +12,9 @@ export class SearchComponent implements OnInit {
 
   searchByfield: string = "Email ";
 
-  constructor() { }
+  constructor(private searchService: SearchService) {
+
+  }
 
   ngOnInit() {
 
@@ -19,6 +22,10 @@ export class SearchComponent implements OnInit {
 
   setSearchByField(fieldName: string){
     this.searchByfield = fieldName;
+  }
+
+  onKeyUp($event){
+    this.searchService.searchFriends($event.target.value);
   }
 
 

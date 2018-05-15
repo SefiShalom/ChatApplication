@@ -31,7 +31,9 @@ export class ChatslistComponent implements OnInit {
             this.user = user;
             this.chatService.friendsListSource.subscribe(list => {
               if(list){
-                this.friendsList = list;
+                if(list[0] !== null){
+                  this.friendsList = list;
+                }
                 this.loadingList = false;
               }
             });

@@ -29,17 +29,17 @@ export class ChatwindowComponent implements OnInit {
       if (user) {
         this.user = user;
         this.initialEvents();
+
         this.chatService.newMessageSource.subscribe(message => {
+
           if(message && this.receiver){
             if(message.senderID === this.receiver._id){
               message.class = 'received';
-              this.messages.push(message);
             }
           }
         });
       }
     });
-
 
     this.chatService.receiverSource.subscribe(receiver => {
       if(receiver){
@@ -80,20 +80,17 @@ export class ChatwindowComponent implements OnInit {
       };
 
       this.chatService.sendMessage(messageObject);
-      this.messages.push(messageObject);
+      // this.messages.push(messageObject);
       this.message = '';
       this.scrollToBottom();
     }
   }
 
   sendMessageByEnter($event){
-    console.log('key up');
     if($event.keyCode === 13){
-      console.log('key up is Enter');
       this.sendButtonClick();
     }
   }
-
 
   scrollToBottom() {
     // let window = document.getElementById('messaging-window');
