@@ -86,8 +86,10 @@ export class ChatwindowComponent implements OnInit {
     }
   }
 
-  sendMessageByEnter(event){
-    if(event.code == 13){
+  sendMessageByEnter($event){
+    console.log('key up');
+    if($event.keyCode === 13){
+      console.log('key up is Enter');
       this.sendButtonClick();
     }
   }

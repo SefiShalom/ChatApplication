@@ -1,5 +1,7 @@
-<div id="chats-list" *ngIf="friendsList != []" class="tab-view" [ngClass]="{hiddenTab: tabNavigationIndex != 0}">
+<div id="chats-list" *ngIf="!loadingList" class="tab-view" [ngClass]="{hiddenTab: tabNavigationIndex != 0}">
       <app-chatlist-item *ngFor="let friend of friendsList;"
                          [user]="friend"
                          (click)="setCurrentReceiver(friend)"></app-chatlist-item>
 </div>
+
+<div class="loader" *ngIf="loadingList"></div>

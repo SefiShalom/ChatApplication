@@ -15,9 +15,12 @@ export class ChatslistComponent implements OnInit {
 
   user: User;
   friendsList: Friend[];
+  loadingList: boolean;
+
 
   constructor(private chatService: ChatService, private chatlistItemService: ChatslistItemService) {
       this.friendsList = [];
+      this.loadingList = true;
   }
 
   ngOnInit() {
@@ -28,9 +31,8 @@ export class ChatslistComponent implements OnInit {
             this.user = user;
             this.chatService.friendsListSource.subscribe(list => {
               if(list){
-                console.log('chatslist component: handling friendslist');
-                console.log(list);
                 this.friendsList = list;
+                this.loadingList = false;
               }
             });
             this.chatService.newMessageSource.subscribe(message => {
