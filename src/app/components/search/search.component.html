@@ -1,23 +1,42 @@
-<div id="search-tab">
+<div id="search-tab" *ngIf="isReady">
   <div id="search-title">
     <h1>Find your friends</h1>
   </div>
   <div class="row search-bar">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
       <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search..." aria-label="..." [(ngModel)]="searchTerm.keywords">
         <div class="input-group-btn">
-          <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{searchByfield}}
-            <span class="caret"></span>
+          <button type="button" class="btn btn-success" type="button" (click)="onSearchButtonClick()">
+            <i id="search-icon" class="fas fa-search"></i>
           </button>
-          <ul class="dropdown-menu">
-            <li (click)="setSearchByField('Email ')"><a>Email</a></li>
-            <li (click)="setSearchByField('Name ')"><a>Name</a></li>
-            <li (click)="setSearchByField('Nickname ')"><a>Nickname</a></li>
-          </ul>
         </div><!-- /btn-group -->
-        <input type="text" class="form-control" aria-label="..." (keyup)="onKeyUp($event)">
       </div><!-- /input-group -->
     </div><!-- /.row -->
   </div>
+
+  <hr/>
+
+  <div class="loader" *ngIf="loadingList"></div>
+
+  <div class="chat-item" *ngFor="let resultsItem of resultsList">
+    <div id="left-section" class="col-lg-2 col-md-3 col-sm-3 col-xs-3">
+      <img [src]="resultsItem.profile_picture">
+    </div>
+
+    <div id="middle-section" class="col-lg-7 col-md-6 col-sm-6 col-xs-6">
+      <div class="row">
+        <span>Name: </span> {{resultsItem.name}} {{resultsItem.last_name}}
+      </div>
+      <div class="row">
+        <span>Nickname: </span> {{resultsItem.nickname}}
+      </div>
+    </div>
+
+    <div id="right-section" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <i id="add-button" class="fas fa-user-plus"></i>
+      <!--<i id="pending-icon" class="fas fa-user-clock"></i>-->
+    </div>
+  </div>
+
 </div>

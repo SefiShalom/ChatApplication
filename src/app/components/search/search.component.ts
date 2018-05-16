@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {SearchService} from '../../services/search.service';
+import {SearchResult} from '../../interfaces/searchresult';
 
 @Component({
   selector: 'app-search',
@@ -8,24 +9,39 @@ import {SearchService} from '../../services/search.service';
 })
 export class SearchComponent implements OnInit {
 
-  keyword: string;
-
-  searchByfield: string = "Email ";
+  searchTerm: {};
+  resultsList: SearchResult[];
+  isReady: boolean;
+  loadingList: boolean;
 
   constructor(private searchService: SearchService) {
-
+    this.searchTerm = {keywords: ""};
+    this.resultsList = [];
+    this.loadingList = false;
   }
 
   ngOnInit() {
 
+    this.searchService.isReady.subscribe(ready => {
+      if(ready){
+        this.searchService.resultsList.subscribe(list => {
+          if(list){
+            this.resultsList = list;
+            this.loadingList = false;
+          }else{
+            this.resultsList = [];
+            this.loadingList = false;
+          }
+        });
+        this.isReady = true;
+      }
+    });
   }
 
-  setSearchByField(fieldName: string){
-    this.searchByfield = fieldName;
-  }
-
-  onKeyUp($event){
-    this.searchService.searchFriends($event.target.value);
+  onSearchButtonClick(){
+    this.resultsList = [];
+    this.loadingList = true;
+    this.searchService.searchFriends(this.searchTerm);
   }
 
 

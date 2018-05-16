@@ -41,7 +41,6 @@ export class ServerEventEmitter implements OnInit {
   }
 
   initServerEventsEmitter() {
-    console.log('Server emitter on init');
     this.socket = io('http://localhost:3000');
     this.socket.on('connect', () => {
       console.log('connected to the server');
@@ -57,7 +56,6 @@ export class ServerEventEmitter implements OnInit {
 
   // EMITTER
   emitEvent(event: Event) {
-    console.log(event.name);
     this.socket.emit(event.name, event.arguments);
   }
 

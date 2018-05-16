@@ -24,14 +24,13 @@ export class ChatslistItemService {
   }
 
   registerToFriendsListMap(component: ChatslistItemComponent) {
-    this.friendsListMap.set(component.user._id, component);
+    this.friendsListMap.set(component.friend._id, component);
   }
 
   setChatlistItemNewMessage(message: Message){
-    if(message.senderID == this.user._id){
-        this.friendsListMap.get(message.receiverID).pushMessage(message);
-      }else{
-        this.friendsListMap.get(message.senderID).pushMessage(message);
-      }
+    let friend = message.senderID == this.user._id ? this.friendsListMap.get(message.receiverID) :
+                  this.friendsListMap.get(message.senderID);
+
+      friend.pushMessage(message);
     }
 }

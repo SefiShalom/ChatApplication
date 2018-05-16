@@ -22,7 +22,6 @@ export class LoginService {
   login(loginForm: LoginForm) {
     return new Observable<LoginResponse>(observer => {
       this._http.post('/login', loginForm).subscribe(res => {
-        console.log('1. LoginService: getting user from DB');
         observer.next(res.json());
       });
     });

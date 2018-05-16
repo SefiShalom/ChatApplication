@@ -7,6 +7,7 @@ var Message = new mongoose.Schema({
   date: {type: Date, default: Date.now()},
   read: {type: Boolean, default: false},
   hidden: Boolean,
+  sender_name: {type: String, default: ""},
   content: String
 });
 

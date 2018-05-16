@@ -1,14 +1,14 @@
-<div class="chat-item" *ngIf="user">
+<div class="chat-item" *ngIf="friend">
   <div id="left-section" class="col-lg-2 col-md-3 col-sm-3 col-xs-3">
-    <img [src]="user.profile_picture">
+    <img [src]="friend.profile_picture">
   </div>
 
   <div id="middle-section" class="col-lg-7 col-md-6 col-sm-6 col-xs-6">
     <div class="row">
-      {{user.nickname}}
+      {{friend.nickname}}
     </div>
     <div class="row" *ngIf="lastMessage">
-      {{lastMessage.content}}
+      {{lastMessage.sender_name}}{{lastMessage.content}}
     </div>
   </div>
 

@@ -162,23 +162,28 @@ io.on('connection', function (socket) {
     });
   });
 
-  // socket.on('searchFriend', function (searchTerms) {
-  //     User.find({})
-  // });
-
-
 
   socket.on('searchFriends', function(searchTerm){
-    var keywords = searchTerm.keywords;
 
-    User.find({$regex: {$search: keywords}}, function(err, users){
+    var keywords = searchTerm.keywords;
+    var user_id = searchTerm.user_id;
+
+    var projection = {
+      _id: 1, name: 1,
+      last_name: 1,
+      nickname: 1,
+      profile_picture: 1
+    }
+
+    User.find({$text: {$search: keywords}, _id: {$ne: user_id}}, projection, function(err, users){
       if(err){
         console.log(err);
       }
-      console.log(users);
+
+      socket.emit('receiveSearchResults', users);
+
     });
   });
-
 
   socket.on('disconnect', function () {
     console.log(socket.id + " was disconnected!");

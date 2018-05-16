@@ -75,6 +75,7 @@ export class ChatwindowComponent implements OnInit {
         date: Date.now(),
         time: "",
         class: 'sent',
+        sender_name: "",
         read: false,
         content: this.message
       };

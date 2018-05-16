@@ -6,5 +6,6 @@ export interface Message {
   time: string,
   class: string,
   read: boolean,
+  sender_name: string;
   content: string
 }
