@@ -10,6 +10,7 @@ const mainRequests = require('./routes/main_routes');
 const userRequests = require('./routes/user_routes');
 const loginRequests = require('./routes/login_routes');
 const User = require("./schemas/user_schema");
+const Request = require("./schemas/request_schema");
 const Conversation = require('./schemas/conversation_schema');
 const Message = require('./schemas/message_schema');
 const HashMap = require('hashmap');
@@ -185,6 +186,66 @@ io.on('connection', function (socket) {
     });
   });
 
+
+  socket.on('sendRequest', function (request) {
+
+    console.log('send request was called');
+    // console.log(request);
+
+    var friendRequest = new Request(request);
+
+      friendRequest.save(function(err, request){
+      if(err){
+        console.log(err);
+      }else{
+
+        var projection = {
+          _id: 1,
+          name: 1,
+          last_name: 1,
+          profile_picture: 1
+        }
+
+        User.find({_id: request.requester_id}, projection, function (err, requester){
+            if(err){
+              console.log(err);
+            }else{
+              var requestObject = {
+                _id: request._id,
+                requester: requester,
+                status: request.status
+              };
+
+              var subject = clients.get(request.subject_id);
+              console.log(subject);
+              if(subject){
+                console.log(requestObject);
+                subject.emit('newRequest', requestObject);
+              }
+            }
+        });
+      }
+    });
+  });
+
+
+  // socket.on('getRequestsList', function(user_id){
+  //
+  //   // Request.find({$or:[
+  //   //     {$and: [{receiverID: friend._id}, {senderID: userID}]},
+  //   //     {$and: [{receiverID: userID}, {senderID: friend._id}]}]}, function(){
+  //   //
+  //   // });
+  //
+  //
+  //   Request.find({subject_id: user_id}, function(){
+  //
+  //   });
+  //
+  // });
+
+
+
   socket.on('disconnect', function () {
     console.log(socket.id + " was disconnected!");
     clients.delete(socket.id);
@@ -194,3 +255,5 @@ io.on('connection', function (socket) {
 server.listen(3000, function () {
   console.log("Server Started!\nlistening on port 3000");
 });
+
+

@@ -32,4 +32,13 @@ export class SearchService {
   }
 
 
+  addFriend(subject_id: string) {
+
+    let requestObject = {
+      requester_id: this.user_id,
+      subject_id: subject_id
+    }
+    console.log('sending request');
+    this.serverEventEmitter.emitEvent({name: 'sendRequest', arguments: requestObject});
+  }
 }

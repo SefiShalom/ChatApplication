@@ -18,7 +18,6 @@ export class ServerEventEmitter implements OnInit {
   constructor(private loginService: LoginService, private router: Router) {
 
     this.loginService.isLoggedIn.subscribe(login => {
-
       if (login) {
         this.loginService.user.subscribe(user => {
           if (user) {

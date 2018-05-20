@@ -1,3 +1,14 @@
-<p>
-  requests works!
-</p>
+<div class="chat-item" *ngFor="let req of requestsList">
+  <div id="left-section" class="col-lg-2 col-md-3 col-sm-3 col-xs-3">
+    <img [src]="req.requester.profile_picture">
+  </div>
+
+  <div id="middle-section" class="col-lg-7 col-md-6 col-sm-6 col-xs-6">
+    <div class="row">
+      {{req.requester.name}} {{req.requester.last_name}} wants to be your friend
+    </div>
+  </div>
+  <div id="right-section" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    <i id="add-button" class="fas fa-check-circle"></i>
+  </div>
+</div>

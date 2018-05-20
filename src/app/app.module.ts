@@ -19,6 +19,7 @@ import {SearchService} from './services/search.service';
 import { SearchComponent } from './components/search/search.component';
 import { RequestsComponent } from './components/requests/requests.component';
 import { MenuComponent } from './components/menu/menu.component';
+import {RequestsService} from './services/requests.service';
 
 
 @NgModule({
@@ -40,7 +41,7 @@ import { MenuComponent } from './components/menu/menu.component';
     HttpModule,
     Routing
   ],
-  providers: [ServerEventEmitter, LoginService, RegisterService, ChatService, ChatslistItemService, SearchService],
+  providers: [ServerEventEmitter, LoginService, RegisterService, ChatService, ChatslistItemService, SearchService, RequestsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

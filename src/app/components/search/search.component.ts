@@ -44,5 +44,9 @@ export class SearchComponent implements OnInit {
     this.searchService.searchFriends(this.searchTerm);
   }
 
+  onAddButtonClick(subject_id: string){
+    this.searchService.addFriend(subject_id);
+  }
+
 
 }
